@@ -14,29 +14,6 @@
         }
 
         /// <summary>
-        /// Create Empty VHistory
-        /// </summary>
-        /// <param name="steps"></param>
-        public VHistory(int stepSize, double timeStep)
-        {
-            Steps = new VHistoryStep[stepSize];
-            TimeStep = timeStep;
-            for (int i = 0; i < Steps.Length; i++)
-                Steps[i] = new VHistoryStep() { t = i * TimeStep };
-        }
-
-        /// <summary>
-        /// CSV入力パスを指定することで，VHistoryを作成。
-        /// </summary>
-        /// <param name="inputFilePath"></param>
-        /// <exception cref="Exception"></exception>
-        public VHistory(string inputFilePath)
-        {
-
-        }
-
-
-        /// <summary>
         /// Construct from csv
         /// </summary>
         /// <param name="inputCsvPath"></param>
@@ -76,44 +53,61 @@
 
         }
 
+
         /// <summary>
         /// Calculate RD Method
         /// </summary>
         /// <returns></returns>
-        public VHistory CalcRD(int resultLength)
+        public RDResultHistory CalcRD(int resultLength, int maxOverlayCount = int.MaxValue, int skipingInitialPeakCount = 0)
         {
-            var resultHistory = new VHistory(resultLength, TimeStep);
+            var resultHistory = new RDResultHistory(resultLength, TimeStep);
+            int peakCount = 0;
+            int overlayCount = 0;
 
             // ごり押し。極大を認識したら結果に足し合わせる。
             for (int i = 1; i < Steps.Length - resultLength - 1; i++)
             {
+                if (maxOverlayCount <= overlayCount)
+                {
+                    Console.WriteLine($"Successfully stopped: overlayCount count reached maxOverlayCount");
+                    break;
+                }
+
                 var lastStep = Steps[i - 1];
                 var currentStep = Steps[i];
                 var nextStep = Steps[i + 1];
 
-                // 今回上がって次下がるなら，極大とみなす。
+                // Simple peak detection
                 if (lastStep.v < currentStep.v && currentStep.v >= nextStep.v)
                 {
-                    // 極大なら足し合わせる
+                    peakCount++;
+
+                    // Skip when in skipping state 
+                    if (skipingInitialPeakCount >= peakCount)
+                        continue;
+
+                    // Overlay
+                    overlayCount++;
                     for (int j = 0; j < resultLength; j++)
                         resultHistory.Steps[j].v += Steps[i + j].v;
                 }
             }
 
+            #region Show results
+
+            if (skipingInitialPeakCount > 0)
+                Console.WriteLine($"Skipped  : {peakCount - overlayCount} / {skipingInitialPeakCount}");
+
+            if (maxOverlayCount == int.MaxValue)
+                Console.WriteLine($"Overlayed: {overlayCount}");
+            else
+                Console.WriteLine($"Overlayed: {overlayCount} / {maxOverlayCount}");
+
+            Console.WriteLine();
+
+            #endregion
+
             return resultHistory;
         }
-
-        /// <summary>
-        /// Output result to csv
-        /// </summary>
-        /// <param name="outputFilePath"></param>
-        public void OutputResultToCsv(string outputFilePath)
-        {
-            using var sw = new StreamWriter(outputFilePath);
-            sw.WriteLine(VHistoryStep.ToStringHeader);
-            foreach (var step in Steps)
-                sw.WriteLine(step.ToString());
-        }
-
     }
 }

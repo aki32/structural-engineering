@@ -23,14 +23,21 @@
             // Read input csv
             var vHistory = VHistory.FromCsv(inputCsvPath);
 
-            
-            // RD Method
-            if (true)
-            {
-                var RDResult = vHistory.CalcRD(200);
-                RDResult.OutputResultToCsv(outputCsvPath);
-            }
 
+            // RD Method
+            var RDResult = vHistory.CalcRD(200);
+            RDResult.OutputResultToCsv(outputCsvPath);
+
+
+            // Post process
+            try
+            {
+                var attenuation = RDResult.CalcAttenuationConstant(3, true);
+            }
+            catch (Exception)
+            {
+
+            }
 
 
             Console.WriteLine();
