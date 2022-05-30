@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Dynamics", "1 Dynamics", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 For Sofwares", "0 For Sofwares", "{CC47DCC0-F39F-4C51-BC85-CF45BA4888B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RainFlowCycleCounting", "RainFlowCycleCounting\RainFlowCycleCounting.csproj", "{6888339E-DF57-4D62-AE80-44400157122F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RainFlowCycleCounting", "..\1 Dynamics\RainFlowCycleCounting\C#\RainFlowCycleCounting.csproj", "{6888339E-DF57-4D62-AE80-44400157122F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewmarkBetaMethod", "NewmarkBetaMethod\NewmarkBetaMethod.csproj", "{9E15EC70-A7E3-4057-80CE-F64D264A64C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewmarkBetaMethod", "..\1 Dynamics\NewmarkBetaMethod\C#\NewmarkBetaMethod.csproj", "{9E15EC70-A7E3-4057-80CE-F64D264A64C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDMethod", "RDMethod\RDMethod.csproj", "{BC14197B-F30B-4F4F-A866-227DB03C79CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDMethod", "..\1 Dynamics\RDMethod\C#\RDMethod.csproj", "{BC14197B-F30B-4F4F-A866-227DB03C79CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,3 +44,5 @@ Global
 		SolutionGuid = {C8314977-DC7A-4C29-92B5-C6BCE824F920}
 	EndGlobalSection
 EndGlobal
+
+

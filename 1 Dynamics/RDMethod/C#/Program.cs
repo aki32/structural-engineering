@@ -15,7 +15,7 @@
 
 
             // Define IO paths
-            var baseDirPath = @"C:\Users\aki32\Dropbox\Codes\# Projects\# Utilities\Structural Engineering\# Integrated\RDMethod\# TestModel";
+            var baseDirPath = @"..\..\..\..\# TestModel";
             var inputCsvPath = Path.Combine(baseDirPath, @"input.csv");
             var outputCsvPath = Path.Combine(baseDirPath, @"result.csv");
 

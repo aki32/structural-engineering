@@ -58,14 +58,14 @@
         /// Calculate RD Method
         /// </summary>
         /// <returns></returns>
-        public RDResultHistory CalcRD(int resultLength, int maxOverlayCount = int.MaxValue, int skipingInitialPeakCount = 0)
+        public RDResultHistory CalcRD(int resultStepLength, int maxOverlayCount = int.MaxValue, int skipingInitialPeakCount = 0)
         {
-            var resultHistory = new RDResultHistory(resultLength, TimeStep);
+            var resultHistory = new RDResultHistory(resultStepLength, TimeStep);
             int peakCount = 0;
             int overlayCount = 0;
 
             // ごり押し。極大を認識したら結果に足し合わせる。
-            for (int i = 1; i < Steps.Length - resultLength - 1; i++)
+            for (int i = 1; i < Steps.Length - resultStepLength - 1; i++)
             {
                 if (maxOverlayCount <= overlayCount)
                 {
@@ -88,7 +88,7 @@
 
                     // Overlay
                     overlayCount++;
-                    for (int j = 0; j < resultLength; j++)
+                    for (int j = 0; j < resultStepLength; j++)
                         resultHistory.Steps[j].v += Steps[i + j].v;
                 }
             }

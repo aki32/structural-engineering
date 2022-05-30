@@ -11,7 +11,7 @@
 
 
             // Define IO paths
-            var baseDirPath = @"C:\Users\aki32\Dropbox\Codes\# Projects\# Utilities\Structural Engineering\# Integrated\NewmarkBetaMethod\# TestModel";
+            var baseDirPath = @"..\..\..\..\# TestModel";
             var inputCsvPath = Path.Combine(baseDirPath, @"Hachinohe-NS.csv");
             var outputCsvPath = Path.Combine(baseDirPath, @"result.csv");
 
