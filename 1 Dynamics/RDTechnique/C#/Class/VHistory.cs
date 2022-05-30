@@ -81,7 +81,7 @@
                 if (lastStep.v < currentStep.v && currentStep.v >= nextStep.v)
                 {
                     peakCount++;
-
+                    
                     // Skip when in skipping state 
                     if (skipingInitialPeakCount >= peakCount)
                         continue;

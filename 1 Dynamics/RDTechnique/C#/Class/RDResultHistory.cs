@@ -29,8 +29,16 @@
             var attenuations = new List<double>();
             int peakCount = 0;
 
+            void AddPeak(VHistoryStep addingStep)
+            {
+                if (consoleOutput)
+                    Console.WriteLine($"Peak {peaks.Count}: t={addingStep.t:F2}, v={addingStep.v}");
+                peaks.Add(addingStep.v);
+            }
+
             AddPeak(Steps[0]);
 
+            // Find peaks
             for (int i = 1; i < Steps.Length - 1; i++)
             {
                 if (checkPeakCount <= peakCount)
@@ -48,34 +56,23 @@
                 }
             }
 
+
             if (consoleOutput)
                 Console.WriteLine();
 
-            for (int i = 0; i < peaks.Count - 1; i++)
+            // Calc attenuations
+            var initialPeak = peaks[0];
+            for (int i = 1; i < peaks.Count; i++)
             {
                 var currentPeak = peaks[i];
-                var nextPeak = peaks[i + 1];
-                var attenuation = 1d / 2 / Math.PI * Math.Log(currentPeak / nextPeak);
+                var delta = 1d / i * Math.Log(initialPeak / currentPeak);
+                var attenuation = delta / 2 / Math.PI;
                 if (consoleOutput)
                     Console.WriteLine($"Attenuation {i}: h={attenuation:F4}");
                 attenuations.Add(attenuation);
             }
 
-            var attenuationAve = attenuations.Average();
-            if (consoleOutput)
-            {
-                Console.WriteLine();
-                Console.WriteLine($"Attenuation Ave: h={attenuationAve:F4}");
-                Console.WriteLine();
-            }
-            return attenuationAve;
-
-            void AddPeak(VHistoryStep addingStep)
-            {
-                if (consoleOutput)
-                    Console.WriteLine($"Peak {peaks.Count}: t={addingStep.t:F2}, v={addingStep.v}");
-                peaks.Add(addingStep.v);
-            }
+            return attenuations.Last();
         }
 
         /// <summary>

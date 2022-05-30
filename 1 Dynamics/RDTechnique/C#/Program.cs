@@ -21,19 +21,12 @@
 
 
             // RD Technique
-            var RDResult = vHistory.CalcRD(200);
+            var RDResult = vHistory.CalcRD(200,10,0);
             RDResult.OutputResultToCsv(outputCsvPath);
 
 
             // Post process
-            try
-            {
-                var attenuation = RDResult.CalcAttenuationConstant(3, true);
-            }
-            catch (Exception)
-            {
-
-            }
+            RDResult.CalcAttenuationConstant(4, true);
 
 
             Console.WriteLine();
