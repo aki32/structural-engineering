@@ -1,4 +1,4 @@
-﻿namespace RDMethod
+﻿namespace RDTechnique
 {
     internal class VHistory
     {
@@ -55,7 +55,7 @@
 
 
         /// <summary>
-        /// Calculate RD Method
+        /// Calculate RD Technique
         /// </summary>
         /// <returns></returns>
         public RDResultHistory CalcRD(int resultStepLength, int maxOverlayCount = int.MaxValue, int skipingInitialPeakCount = 0)

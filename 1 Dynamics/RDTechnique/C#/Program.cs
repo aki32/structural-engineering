@@ -1,11 +1,7 @@
-﻿namespace RDMethod
+﻿namespace RDTechnique
 {
     internal class Program
     {
-        /// <summary>
-        /// RD法
-        /// </summary>
-        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Console.WriteLine();
@@ -24,7 +20,7 @@
             var vHistory = VHistory.FromCsv(inputCsvPath);
 
 
-            // RD Method
+            // RD Technique
             var RDResult = vHistory.CalcRD(200);
             RDResult.OutputResultToCsv(outputCsvPath);
 

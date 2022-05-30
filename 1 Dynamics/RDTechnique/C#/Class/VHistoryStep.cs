@@ -1,4 +1,4 @@
-﻿namespace RDMethod
+﻿namespace RDTechnique
 {
     internal class VHistoryStep
     {
