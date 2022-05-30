@@ -1,17 +1,17 @@
-# Abstract
+# 🌟 Abstract
 
 Rainflow cycle counting method written in Python and C#.
 
 
 <br>
 
-# Rainflow Cycle Counting
+# 🌟 Rainflow Cycle Counting
 
 * to be added
 
 <br>
 
-# Requirements
+# 🌟 Requirements
 
 ### For Python Code
 
@@ -26,13 +26,13 @@ Rainflow cycle counting method written in Python and C#.
 
 <br>
 
-# Notice
+# 🌟 Notice
 
 Any commitment to enhance this repo will be welcomed!
 
 <br>
 
-# Japanese 日本語
+# 🌟 Japanese 日本語
 
 レインフロー法を用いて、鋼材などの累積損傷を計算できるプログラムです。
 
