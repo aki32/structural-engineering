@@ -1,34 +1,39 @@
+# ❤ Code for Rainflow Cycle Counting Method
+
 ## 🌟 Abstract
 
-Rainflow cycle counting method written in Python and C#.
+Code for rainflow cycle counting method written in C#.
 
 
 <br>
 
-## 🌟 Rainflow Cycle Counting
+## 🌟 Rainflow Cycle Counting Method
 
-* to be added
+Method for assuming steel's accumulated damage.
+
+* https://en.wikipedia.org/wiki/Rainflow-counting_algorithm
+
+more reference to be added...
+
 
 <br>
 
 ## 🌟 Requirements
 
-### 🎇 For Python Code
 
-1. Jupyter Environment
-
-
-<br>
-
-### 🎇 For C# Code
+### 🗯 For C# Code
 
 1. Visual Studio (or any substitutional softwares)
+
 
 <br>
 
 ## 🌟 Notice
 
+Python version will be added soon.
+
 Any commitment to enhance this repo will be welcomed!
+
 
 <br>
 
@@ -36,4 +41,4 @@ Any commitment to enhance this repo will be welcomed!
 
 レインフロー法を用いて、鋼材などの累積損傷を計算できるプログラムです。
 
-コードは Python と C# で記述しています。
+C# で記述しています。じき Python バージョンを作成予定です。
