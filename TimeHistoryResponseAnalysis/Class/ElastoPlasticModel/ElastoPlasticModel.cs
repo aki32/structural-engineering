@@ -10,6 +10,6 @@ namespace TimeHistoryResponseAnalysis.Class.ElastoPlasticModel
     {
         public double K1 { get; set; }
 
-        internal double CalcNextF(double x);
+        internal double CalcNextF(double targetX);
     }
 }

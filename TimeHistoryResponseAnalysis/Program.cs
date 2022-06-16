@@ -1,4 +1,6 @@
-﻿namespace TimeHistoryResponseAnalysis
+﻿using TimeHistoryResponseAnalysis.Class.ElastoPlasticModel;
+
+namespace TimeHistoryResponseAnalysis
 {
     internal class Program
     {
@@ -11,26 +13,36 @@
             // Test
             {
                 var basePath = @"..\..\..\# TestModel";
-                var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
 
                 // newmark beta
                 {
-                    var wave = Wave.FromCsv(inputCsv);
-                    wave.CalcNewmarkBeta(0.25, 0.03, 1);
-                    wave.OutputWaveHistoryToCsv();
+                    //var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    //var wave = Wave.FromCsv(inputCsv);
+                    //wave.CalcNewmarkBeta(0.25, 0.03, 1);
+                    //wave.OutputWaveHistoryToCsv();
                 }
 
                 // nigam jennings
                 {
+                    //var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    //var wave = Wave.FromCsv(inputCsv);
+                    //wave.CalcNigamJennings(0.03, 1);
+                    //wave.OutputWaveHistoryToCsv();
+                }
+
+                // clough model
+                {
+                    var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     var wave = Wave.FromCsv(inputCsv);
-                    wave.CalcNigamJennings(0.03, 1);
+                    var Model = new CloughModel(2, 0.1, 10);
+                    wave.CalcNigamJennings(0.03, 1, Model);
                     wave.OutputWaveHistoryToCsv();
                 }
 
                 // spectrum analysis with newmark beta
                 // TODO : make this a class
                 {
-
+                    //var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = Wave.FromCsv(inputCsv);
 
                     //var hList = new double[] { 0.00, 0.03, 0.05, 0.10 };

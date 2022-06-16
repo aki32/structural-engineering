@@ -193,7 +193,11 @@ namespace TimeHistoryResponseAnalysis
                 if (epModel == null)
                     c.xtt = p.ytt - 2 * h * wo * c.xt - wo2 * c.x;
                 else
-                    c.xtt = p.ytt - 2 * h * wo * c.xt - epModel.CalcNextF(c.x) / m;
+                {
+                    var F = epModel.CalcNextF(c.x);
+                    c.xtt = p.ytt - 2 * h * wo * c.xt - F / m;
+                    c.memo1 = F;
+                }
 
             }
         }
