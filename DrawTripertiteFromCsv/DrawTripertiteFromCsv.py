@@ -12,8 +12,8 @@ from Class.Graph import Graph
 BASE_PATH = '# TestModel'
 
 OUTPUT_DIR_PATH = f'{BASE_PATH}/output'
-INPUT_SPECTRUM_FILE_PATH = f'{BASE_PATH}/input/vel spectra.csv'
-INPUT_CONFIG_DIR_PATH = f'{BASE_PATH}/input/configs'
+INPUT_SPECTRUM_FILE_PATH = f'{BASE_PATH}/vel spectra.csv'
+INPUT_CONFIG_DIR_PATH = f'{BASE_PATH}/configs'
 INPUT_CONFIG_FILE_NAMES = [
   'All L1',
   'All L2',
