@@ -1,8 +1,8 @@
 # -*- coding:utf8 -*-
-import json
+import json, os
+from msilib import Directory
 import pandas as pd
 import matplotlib.pyplot as plt
-
 from Class.SpectrumInfo import SpectrumInfo
 from Class.Graph import Graph
 
@@ -45,6 +45,8 @@ for configName in INPUT_CONFIG_FILE_NAMES:
     graph.Format()
     
     ## Save and show fig
+    if not os.path.exists(OUTPUT_DIR_PATH):
+        os.makedirs(OUTPUT_DIR_PATH)
     plt.savefig(f'{OUTPUT_DIR_PATH}/result {configName}.png', dpi=graph.Dpi)
     #plt.show()
 

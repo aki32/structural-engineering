@@ -28,18 +28,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="# TestModel\" />
-    <Folder Include="# TestModel\input\" />
-    <Folder Include="# TestModel\input\configs\" />
     <Folder Include="# TestModel\output\" />
     <Folder Include="Class\" />
     <Folder Include="Class\__pycache__\" />
     <Folder Include="ipynb\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="# TestModel\input\configs\All L1.json" />
-    <Content Include="# TestModel\input\configs\All L2.json" />
-    <Content Include="# TestModel\input\vel spectra.csv" />
-    <Content Include="# TestModel\input\★ calc design response spectrum.xlsx" />
     <Content Include="# TestModel\output\result All L1.png" />
     <Content Include="# TestModel\output\result All L2.png" />
     <Content Include="Class\__pycache__\Graph.cpython-310.pyc" />
