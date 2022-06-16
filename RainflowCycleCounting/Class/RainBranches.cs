@@ -56,7 +56,8 @@
                 if (!RainBranchList.Where(x => x.IsAlive).Any(x => x.CurrentMu == lastMu))
                 {
                     RainBranchList.Add(new RainBranch(lastMu, lastMu));
-                    Console.WriteLine($"  branch {ITPString}{RainBranchList.Count - 1}, created");
+                    if (consoleOutput)
+                        Console.WriteLine($"  branch {ITPString}{RainBranchList.Count - 1}, created");
                 }
 
                 // List all branches ending within [lastMu, currentMu]
@@ -85,7 +86,7 @@
                     // Connect to next fight point
                     var branch0 = candidateBranches[0];
                     var branch1 = candidateBranches[1];
-                    
+
                     calculatingMu = candidateBranches[1].CurrentMu;
                     if (consoleOutput)
                         Console.WriteLine($"  branch {ITPString}{RainBranchList.IndexOf(branch0)}, {ITPString}{calculatingMu - branch0.CurrentMu}");

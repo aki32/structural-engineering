@@ -8,7 +8,7 @@
         public double totalMu { get; set; }
         public double totalDamage { get; set; }
 
-        public const string ToStringHeader = "t,mu,totalDamage";
-        public string ToString() => $"{t},{mu},{totalDamage}";
+        public const string ToStringHeader = "t,mu,totalMu,totalDamage";
+        public string ToString() => $"{t},{mu},{totalMu},{totalDamage}";
     }
 }
