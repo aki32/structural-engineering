@@ -8,49 +8,55 @@
             Console.WriteLine($"★ Process Started!");
             Console.WriteLine();
 
-
-
-            // Define IO paths
-            var baseDirPath = @"..\..\..\# TestModel";
-            var inputDirPath = Path.Combine(baseDirPath, "input");
-            var inputCsvPath = Path.Combine(inputDirPath, @"Hachinohe-NS.csv");
-            var outputDirPath = Path.Combine(baseDirPath, "output");
-            var outputCsvPath = Path.Combine(outputDirPath, @"result.csv");
-
-
-            // Read input csv
-            var wave = Wave.FromCsv(inputCsvPath);
-
-
-            // Run Newmark Beta Method
-            if (true)
+            // Test
             {
-                wave.CalcNewmarkBeta(0.25, 0.03, 1);
-                wave.OutputWaveHistoryToCsv(outputCsvPath);
-            }
+                var basePath = @"..\..\..\# TestModel";
+                var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
 
-
-            // Run Spectrum Analysis with Newmark Beta Method
-            if (true)
-            {
-                var hList = new double[] { 0.00, 0.03, 0.05, 0.10 };
-                foreach (var h in hList)
+                // newmark beta
                 {
-                    outputCsvPath = Path.Combine(outputDirPath, $"spectrum(h={h}).csv");
-                    using var sw = new StreamWriter(outputCsvPath);
-                    sw.WriteLine(SpectrumSet.ToStringHeader);
-
-                    for (int i = 100; i <= 500; i++)
-                    {
-                        var T = i / 100d;
-                        wave.CalcNewmarkBeta(0.25, h, T);
-                        var ss = wave.GetSpectrumSet();
-                        sw.WriteLine(ss.ToString());
-                    }
-
-                    Console.WriteLine($"Output Succeeded: h={h}");
-                    Console.WriteLine($"--------------------------");
+                    var wave = Wave.FromCsv(inputCsv);
+                    wave.CalcNewmarkBeta(0.25, 0.03, 1);
+                    wave.OutputWaveHistoryToCsv();
                 }
+
+                // nigam jennings
+                {
+                    var wave = Wave.FromCsv(inputCsv);
+                    wave.CalcNigamJennings(0.03, 1);
+                    wave.OutputWaveHistoryToCsv();
+                }
+
+                // spectrum analysis with newmark beta
+                // TODO : make this a class
+                {
+
+                    //var wave = Wave.FromCsv(inputCsv);
+
+                    //var hList = new double[] { 0.00, 0.03, 0.05, 0.10 };
+                    //foreach (var h in hList)
+                    //{
+                    //    var outputCsv = new FileInfo(Path.Combine(inputCsv.FullName, "output", $"spectrum(h={h}).csv"));
+                    //    if (!outputCsv.Directory.Exists)
+                    //        outputCsv.Directory.Create();
+                    //    using var sw = new StreamWriter(outputCsv.FullName);
+                    //    sw.WriteLine(SpectrumSet.ToStringHeader);
+
+                    //    for (int i = 100; i <= 500; i++)
+                    //    {
+                    //        var T = i / 100d;
+                    //        wave.CalcNewmarkBeta(0.25, h, T);
+                    //        var ss = wave.GetSpectrumSet();
+                    //        sw.WriteLine(ss.ToString());
+                    //    }
+
+                    //    Console.WriteLine($"Output Succeeded: h={h}");
+                    //    Console.WriteLine($"--------------------------");
+                    //}
+
+                }
+
+
             }
 
 
