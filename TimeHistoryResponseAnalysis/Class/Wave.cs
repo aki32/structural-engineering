@@ -210,7 +210,7 @@ namespace TimeHistoryResponseAnalysis
         {
             var Sx = Steps.Max(x => Math.Abs(x.x));
             var Sv = Steps.Max(x => Math.Abs(x.xt));
-            var Sa = Steps.Max(x => Math.Abs(x.xtt));
+            var Sa = Steps.Max(x => Math.Abs(x.xtt + x.ytt));
             return new SpectrumSet(__T, Sx, Sv, Sa);
         }
 

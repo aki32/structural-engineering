@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeHistoryResponseAnalysis.Class.ElastoPlasticModel
 {
-    internal class CloughModel : IElastoPlasticModel
+    internal class CloughModel_Simple : IElastoPlasticModel
     {
         public double K1 { get; set; }
         public double beta { get; set; }
@@ -20,7 +20,7 @@ namespace TimeHistoryResponseAnalysis.Class.ElastoPlasticModel
         private double lastX = 0d;
         private double lastF = 0d;
 
-        public CloughModel(double K1, double beta, double Fy)
+        public CloughModel_Simple(double K1, double beta, double Fy)
         {
             this.K1 = K1;
             this.beta = beta;
