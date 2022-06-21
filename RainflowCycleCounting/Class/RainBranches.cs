@@ -1,6 +1,6 @@
 ﻿namespace RainFlowCycleCounting
 {
-    internal class RainBranches
+    public class RainBranches
     {
         public List<RainBranch> RainBranchList { get; init; }
 

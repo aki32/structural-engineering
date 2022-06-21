@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CreateAccFromCsv
 {
-    internal partial class Program
+    public partial class Program
     {
         /// <summary>
         /// B2 以降に加速度データの入った CSV を，ACCに変換。

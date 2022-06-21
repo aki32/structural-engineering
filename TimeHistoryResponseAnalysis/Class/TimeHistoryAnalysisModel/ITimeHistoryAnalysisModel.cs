@@ -4,8 +4,8 @@ using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel
 {
-    internal interface ITimeHistoryAnalysisModel
+    public interface ITimeHistoryAnalysisModel
     {
-        internal TimeHistory Calc(SDoFModel model, TimeHistory wave);
+        public TimeHistory Calc(SDoFModel model, TimeHistory wave);
     }
 }

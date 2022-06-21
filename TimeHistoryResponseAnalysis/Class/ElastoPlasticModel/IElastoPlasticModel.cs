@@ -3,9 +3,9 @@
 
 namespace TimeHistoryResponseAnalysis.Class.ElastoPlasticModel
 {
-    internal interface IElastoPlasticModel
+    public interface IElastoPlasticModel
     {
         public double K1 { get; set; }
-        internal double CalcNextF(double targetX);
+        public double CalcNextF(double targetX);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace RDTechnique
 {
-    internal class VHistoryStep
+    public class VHistoryStep
     {
         public double t { get; set; }
         public double v { get; set; }

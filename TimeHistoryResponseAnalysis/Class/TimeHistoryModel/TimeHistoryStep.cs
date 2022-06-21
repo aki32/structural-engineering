@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryModel
 {
-    internal class TimeHistoryStep : ICloneable
+    public class TimeHistoryStep : ICloneable
     {
-        internal Dictionary<string, double> data;
+        public Dictionary<string, double> data;
         public double this[string key]
         {
             get

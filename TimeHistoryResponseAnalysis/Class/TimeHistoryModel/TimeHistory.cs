@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryModel
 {
-    internal class TimeHistory : ICloneable
+    public class TimeHistory : ICloneable
     {
         private Dictionary<string, double[]> data;
         public double[] this[string key]

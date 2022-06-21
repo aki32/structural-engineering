@@ -1,6 +1,6 @@
 ﻿namespace RainFlowCycleCounting
 {
-    internal class RainBranch
+    public class RainBranch
     {
         public double SourceMu { get; set; }
         public double CurrentMu { get; set; }

@@ -4,7 +4,7 @@ using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel
 {
-    internal class NewmarkBetaModel : ITimeHistoryAnalysisModel
+    public class NewmarkBetaModel : ITimeHistoryAnalysisModel
     {
         public double beta { get; set; }
 
@@ -49,6 +49,6 @@ namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel
 
             return resultHistory;
         }
-    
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace RainFlowCycleCounting
 {
-    internal class MuHistoryStep
+    public class MuHistoryStep
     {
         public double t { get; set; }
         public double mu { get; set; }

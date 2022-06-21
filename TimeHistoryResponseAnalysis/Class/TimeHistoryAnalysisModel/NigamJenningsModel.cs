@@ -4,7 +4,7 @@ using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel
 {
-    internal class NigamJenningsModel : ITimeHistoryAnalysisModel
+    public class NigamJenningsModel : ITimeHistoryAnalysisModel
     {
         /// <summary>
         /// constructor
@@ -122,7 +122,7 @@ namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel
                 {
                     var F = epModel.CalcNextF(c.x);
                     c.xtt = p.ytt - 2 * h * wo * c.xt - F / m;
-                    c.f= F;
+                    c.f = F;
                 }
 
                 resultHistory.SetStep(i, c);

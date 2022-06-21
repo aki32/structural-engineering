@@ -5,7 +5,7 @@ using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis.Class.StructuralModel
 {
-    internal class SDoFModel
+    public class SDoFModel
     {
         public double T { get; set; }
         public double h { get; set; }

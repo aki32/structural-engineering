@@ -1,12 +1,12 @@
 ﻿namespace RainFlowCycleCounting
 {
-    internal class MuHistory
+    public class MuHistory
     {
         public MuHistoryStep[] Steps { get; set; }
 
 
         /// <summary>
-        /// Forbid public instantiate
+        /// Forbid public  instantiate
         /// </summary>
         private MuHistory() { }
 

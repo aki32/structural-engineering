@@ -1,13 +1,13 @@
 ﻿namespace RDTechnique
 {
-    internal class VHistory
+    public class VHistory
     {
         public double TimeStep { get; set; }
         public VHistoryStep[] Steps { get; set; }
 
 
         /// <summary>
-        /// Forbid public instantiate
+        /// Forbid public  instantiate
         /// </summary>
         private VHistory() { }
 
