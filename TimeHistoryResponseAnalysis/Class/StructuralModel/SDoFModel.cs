@@ -1,26 +1,24 @@
-﻿using TimeHistoryResponseAnalysis.Class.ElastoPlasticModel;
+﻿using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
 using TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
-using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
+using Utility.TimeHistoryModel;
 
-namespace TimeHistoryResponseAnalysis.Class.StructuralModel
+namespace TimeHistoryResponseAnalysis.Class.StructuralModel;
+public class SDoFModel
 {
-    public class SDoFModel
+    public double T { get; set; }
+    public double h { get; set; }
+    public IRestoringForceCharacteristics RFC { get; set; }
+
+    public SDoFModel(double T, double h = 0, IRestoringForceCharacteristics rfc = null)
     {
-        public double T { get; set; }
-        public double h { get; set; }
-        public IElastoPlasticModel epmodel { get; set; }
+        this.T = T;
+        this.h = h;
+        RFC = rfc;
+    }
 
-        public SDoFModel(double T, double h = 0, IElastoPlasticModel epmodel = null)
-        {
-            this.T = T;
-            this.h = h;
-            this.epmodel = epmodel;
-        }
-
-        public TimeHistory Calc(TimeHistory wave, ITimeHistoryAnalysisModel thaModel)
-        {
-            return thaModel.Calc(this, wave);
-        }
+    public TimeHistory Calc(TimeHistory wave, ITimeHistoryAnalysisModel thaModel)
+    {
+        return thaModel.Calc(this, wave);
     }
 }

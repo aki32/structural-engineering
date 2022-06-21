@@ -1,7 +1,7 @@
-﻿using TimeHistoryResponseAnalysis.Class.ElastoPlasticModel;
+﻿using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
 using TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
-using TimeHistoryResponseAnalysis.Class.TimeHistoryModel;
+using Utility.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis
 {
@@ -13,21 +13,27 @@ namespace TimeHistoryResponseAnalysis
             Console.WriteLine($"★ Process Started!");
             Console.WriteLine();
 
+
+            // TODO:
+            // merge rainflow
+            // merge rd method
+
+
             // Test
             {
                 var basePath = @"..\..\..\# TestModel";
 
                 // newmark beta
                 {
-                    //var model = new SDoFModel(1, 0.03);
+                    var model = new SDoFModel(1, 0.03);
 
-                    //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
-                    //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
+                    var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnaModel = new NewmarkBetaModel(0.25);
-                    //var result = model.Calc(wave, waveAnaModel);
+                    var waveAnaModel = new NewmarkBetaModel(0.25);
+                    var result = model.Calc(wave, waveAnaModel);
 
-                    //result.OutputWaveHistoryToCsv();
+                    result.OutputWaveHistoryToCsv();
                 }
 
                 // nigam jennings
@@ -45,24 +51,23 @@ namespace TimeHistoryResponseAnalysis
 
                 // clough model + nigam jenning
                 {
-                    var epModel = new CloughModel(2, 0.1, 8);
+                    //var rfc = new CloughModel(2, 0.1, 8);
 
-                    var model = new SDoFModel(1, 0.03, epModel);
+                    //var model = new SDoFModel(1, 0.03, rfc);
 
-                    var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
-                    var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
+                    //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    var waveAnaModel = new NigamJenningsModel();
+                    //var waveAnaModel = new NigamJenningsModel();
 
-                    var result = model.Calc(wave, waveAnaModel);
+                    //var result = model.Calc(wave, waveAnaModel);
 
-                    result.OutputWaveHistoryToCsv();
+                    //result.OutputWaveHistoryToCsv();
                 }
 
                 // spectrum analysis with newmark beta
                 // TODO : make this a class
                 {
-
                     //var inputCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = Wave.FromCsv(inputCsv);
 
@@ -91,8 +96,6 @@ namespace TimeHistoryResponseAnalysis
 
 
             }
-
-
 
             Console.WriteLine();
             Console.WriteLine($"★ Process Finished!");

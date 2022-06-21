@@ -1,15 +1,16 @@
-﻿namespace RDTechnique
+﻿
+
+namespace RDTechnique;
+public class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Console.WriteLine();
+        Console.WriteLine($"★ Process Started!");
+        Console.WriteLine();
+
+        // test
         {
-            Console.WriteLine();
-            Console.WriteLine($"★ Process Started!");
-            Console.WriteLine();
-
-
-
             // Define IO paths
             var baseDirPath = @"..\..\..\# TestModel";
             var inputCsvPath = Path.Combine(baseDirPath, @"input.csv");
@@ -29,14 +30,12 @@
             var att = RDResult.CalcAttenuationConstant(4, true);
             Console.WriteLine();
             Console.WriteLine($"result h = {att}");
-
-
-
-            Console.WriteLine();
-            Console.WriteLine($"★ Process Finished!");
-            Console.WriteLine();
-
-            Console.ReadLine();
         }
+
+        Console.WriteLine();
+        Console.WriteLine($"★ Process Finished!");
+        Console.WriteLine();
+
+        Console.ReadLine();
     }
 }
