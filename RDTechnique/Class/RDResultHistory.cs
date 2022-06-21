@@ -1,6 +1,6 @@
 ﻿namespace RDTechnique
 {
-    internal class RDResultHistory
+    public class RDResultHistory
     {
         public double TimeStep { get; set; }
         public VHistoryStep[] Steps { get; set; }

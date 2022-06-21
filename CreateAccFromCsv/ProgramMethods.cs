@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreateAccFromCsv
 {
-    internal partial class Program
+    public partial class Program
     {
         static void HandleOne(string inputFilePath, string outputFilePath)
         {

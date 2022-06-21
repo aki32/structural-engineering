@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 Dynamics", "0 Dynamics", "{D495E111-3CE6-4342-A519-80DF3C6DC47C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Dynamics", "1 Dynamics", "{D495E111-3CE6-4342-A519-80DF3C6DC47C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Software Helpers", "1 Software Helpers", "{3A903CEF-C972-48F0-BC0D-132EFAC3A61B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Software Helpers", "2 Software Helpers", "{3A903CEF-C972-48F0-BC0D-132EFAC3A61B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abaqus", "Abaqus", "{F07932D4-B093-4F84-BD16-EE23C568C35E}"
 EndProject
@@ -24,6 +24,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeHistoryResponseAnalysis", "TimeHistoryResponseAnalysis\TimeHistoryResponseAnalysis.csproj", "{B888B2BB-AE2C-49C1-A30F-DA9E5B64F794}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateAccFromCsv", "CreateAccFromCsv\CreateAccFromCsv.csproj", "{B295FD9C-6599-4CC4-8933-B036EE87BB59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 Util", "0 Util", "{CAB649E1-8298-4A3D-B51B-B5AFC4C65F3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CS_DataFrame", "cs-dataframe\cs-dataframe\CSharp_DataFrame\CS_DataFrame.csproj", "{7C470C87-BABB-4BE3-B958-0D1D3FBDF235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +55,14 @@ Global
 		{B295FD9C-6599-4CC4-8933-B036EE87BB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B295FD9C-6599-4CC4-8933-B036EE87BB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B295FD9C-6599-4CC4-8933-B036EE87BB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C470C87-BABB-4BE3-B958-0D1D3FBDF235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C470C87-BABB-4BE3-B958-0D1D3FBDF235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C470C87-BABB-4BE3-B958-0D1D3FBDF235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C470C87-BABB-4BE3-B958-0D1D3FBDF235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +77,8 @@ Global
 		{BFB49B13-243A-4030-A6F8-E8F6ED69D1CA} = {D495E111-3CE6-4342-A519-80DF3C6DC47C}
 		{B888B2BB-AE2C-49C1-A30F-DA9E5B64F794} = {D495E111-3CE6-4342-A519-80DF3C6DC47C}
 		{B295FD9C-6599-4CC4-8933-B036EE87BB59} = {04C4A20F-F693-4967-929C-062648C7518C}
+		{E44FFCBC-814E-46B7-B0E1-2A6CCFC0BA12} = {CAB649E1-8298-4A3D-B51B-B5AFC4C65F3D}
+		{7C470C87-BABB-4BE3-B958-0D1D3FBDF235} = {CAB649E1-8298-4A3D-B51B-B5AFC4C65F3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D1190A5-5349-4C0F-938E-7646F4CC86C3}
