@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Utility\Utility.csproj" />
+    <ProjectReference Include="..\GitSubmodules\aki32-utilities\Aki32 Utilities\Aki32 Utilities.csproj" />
   </ItemGroup>
 
 </Project>

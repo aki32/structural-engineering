@@ -1,7 +1,7 @@
 ﻿using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
 using TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
-using Utility.TimeHistoryModel;
+using Aki32_Utilities.OwesomeModels.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis
 {
