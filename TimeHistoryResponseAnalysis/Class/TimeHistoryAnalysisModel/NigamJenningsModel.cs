@@ -1,6 +1,6 @@
-﻿using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
+﻿using Aki32_Utilities.OwesomeModels.TimeHistoryModel;
+using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
-using Utility.TimeHistoryModel;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
 public class NigamJenningsModel : ITimeHistoryAnalysisModel
