@@ -1,5 +1,5 @@
 # 🌟 Abstract
-Code set for Structural Engineering mainly written in Python and C#
+Code set for Structural Engineering mainly written in C# (some in Python)
 
 <br>
 
