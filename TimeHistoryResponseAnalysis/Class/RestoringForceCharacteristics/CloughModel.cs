@@ -1,121 +1,114 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿
+namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
+public class CloughModel : RestoringForceCharacteristics
+{
 
-//namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-//public class CloughModel : RestoringForceCharacteristics
-//{
+    #region ★★★★★★★★★★★★★★★ プロパティたち
 
-//    #region ★★★★★★★★★★★★★★★ プロパティたち
+    public double beta { get; set; }
+    public double Fy { get; set; }
 
-//    public double beta { get; set; }
-//    public double Fy { get; set; }
+    public double K2 => K1 * beta;
 
-//    private double MaxF = 0d;
-//    private double MaxX = 0d;
-//    private double MinF = 0d;
-//    private double MinX = 0d;
+    private double MaxF = 0d;
+    private double MaxX = 0d;
+    private double MinF = 0d;
+    private double MinX = 0d;
 
-//    #endregion
+    #endregion
 
-//    public CloughModel(double K1, double beta, double Fy)
-//    {
-//        this.K1 = K1;
-//        this.beta = beta;
-//        this.Fy = Fy;
+    public CloughModel(double K1, double beta, double Fy)
+    {
+        this.K1 = K1;
+        this.beta = beta;
+        this.Fy = Fy;
 
-//        MaxF = Fy;
-//        MaxX = MaxF / K1;
-//        MinF = -Fy;
-//        MinX = MinF / K1;
-//    }
+        MaxF = Fy;
+        MaxX = MaxF / K1;
+        MinF = -Fy;
+        MinX = MinF / K1;
+    }
 
-//    public override double CalcNextF(double targetX)
-//    {
-//        if (LastX == targetX)
-//            return CurrentF;
+    public override double CalcNextF(double targetX)
+    {
+        if (LastX == targetX)
+            return CurrentF;
 
-//        LastX = CurrentX;
-//        LastF = CurrentF;
-//        CurrentX = targetX;
+        LastX = CurrentX;
+        LastF = CurrentF;
+        CurrentX = targetX;
 
-//        // シンプルに，K そのまま与えちゃう。
-//        var K = GetK(CurrentX);
-//        var dX = CurrentX - LastX;
+        #region fを求める
 
-//        CurrentF += dX * K;
-//        RenewMinMax();
+        // 設計イラストの通り
+        var dX = CurrentX - LastX;
+        var f1 = K1 * dX + LastF;
+        var fy = K2 * CurrentX + ((CurrentX > LastX) ? Fy : -Fy);
+        double fc; // fc0と兼用
 
-//        return CurrentF;
-//    }
+        // 向かってる先でX軸をまたがない／またぐ
+        if ((CurrentX > LastX && LastF > 0) || (CurrentX < LastX && LastF < 0))
+        {
+            if (CurrentX > LastX)
+                fc = GetF(LastX, LastF, MaxX, MaxF, CurrentX);
+            else
+                fc = GetF(LastX, LastF, MinX, MinF, CurrentX);
+        }
+        else
+        {
+            var HitX = LastX + (-LastF / K1);
 
-//    private void RenewMinMax()
-//    {
-//        if (CurrentX > MaxX)
-//        {
-//            MaxX = CurrentX;
-//            MaxF = CurrentF;
-//        }
-//        else if (CurrentX < MinX)
-//        {
-//            MinX = CurrentX;
-//            MinF = CurrentF;
-//        }
-//    }
+            if (CurrentX > LastX)
+                fc = GetF(HitX, 0, MaxX, MaxF, CurrentX);
+            else
+                fc = GetF(HitX, 0, MinX, MinF, CurrentX);
+        }
 
-//    private double GetK(double targetX)
-//    {
-//        // right
-//        if (targetX > LastX)
-//        {
-//            // from positive
-//            if (LastF > 0)
-//            {
-//                // toward max point
-//                if (LastX < MaxX)
-//                    return (MaxF - LastF) / (MaxX - LastX);
+        // 最小値／最大値
+        var fs = new List<double> { f1, fy, fc };
+        if (CurrentX > LastX)
+            CurrentF = fs.Min();
+        else
+            CurrentF = fs.Max();
 
-//                // toward new max point
-//                else
-//                    return K1 * beta;
+        #endregion
 
-//            }
+        UpdateMinMax();
+        return CurrentF;
+    }
 
-//            // from negative
-//            else
-//                return K1;
-//        }
+    private void UpdateMinMax()
+    {
+        if (CurrentX > MaxX)
+        {
+            MaxX = CurrentX;
+            MaxF = CurrentF;
+        }
+        else if (CurrentX < MinX)
+        {
+            MinX = CurrentX;
+            MinF = CurrentF;
+        }
+    }
 
-//        // left
-//        else
-//        {
-//            // from negative
-//            if (LastF < 0)
-//            {
-//                // toward min point
-//                if (LastX > MinX)
-//                    return (MinF - LastF) / (MinX - LastX);
+    /// <summary>
+    /// (X1,F1),(X2,F2)の2点を通過する直線上の targetX での F を返します。
+    /// </summary>
+    /// <param name="X1"></param>
+    /// <param name="F1"></param>
+    /// <param name="X2"></param>
+    /// <param name="Y2"></param>
+    /// <param name="targetX"></param>
+    /// <returns></returns>
+    double GetF(double X1, double F1, double X2, double Y2, double targetX)
+    {
+        double Kc;
+        if (X1 == X2)
+            Kc = K2;
+        else
+            Kc = (Y2 - F1) / (X2 - X1);
+        Kc = Math.Min(K1, Kc); // for safety
+        return Kc * (targetX - X1) + F1;
+    }
 
-//                // toward new min point
-//                else
-//                    return K1 * beta;
-
-//            }
-
-//            // from positive
-//            else
-//                return K1;
-//        }
-//    }
-
-//    private double Get2ndLinearF(double X)
-//    {
-//        var Xy = Fy * K1;
-//        var dX = X - Xy;
-//        var dF = K1 * beta * dX;
-//        return Fy + dF;
-//    }
-
-//}
+}

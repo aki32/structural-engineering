@@ -34,16 +34,18 @@ public class BilinearModel : RestoringForceCharacteristics
         // 設計イラストの通り
         var dX = CurrentX - LastX;
         var f1 = K1 * dX + LastF;
-        var f2 = K2 * dX + LastF;
         var fy = K2 * CurrentX + ((CurrentX > LastX) ? Fy : -Fy);
 
-        // 中央値
-        var fs = new List<double> { f1, fy, f2 };
-        fs.Sort();
-        CurrentF = fs[1];
+        // 最小値／最大値
+        var fs = new List<double> { f1, fy };
+        if (CurrentX > LastX)
+            CurrentF = fs.Min();
+        else
+            CurrentF = fs.Max();
 
         #endregion
 
         return CurrentF;
     }
+
 }
