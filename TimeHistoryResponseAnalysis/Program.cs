@@ -32,8 +32,8 @@ namespace TimeHistoryResponseAnalysis
                     //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnaModel = new NewmarkBetaModel(0.25);
-                    //var result = model.Calc(wave, waveAnaModel);
+                    //var waveAnalysisModel = new NewmarkBetaModel(0.25);
+                    //var result = model.Calc(wave, waveAnalysisModel);
 
                     //result.OutputTimeHistoryToCsv();
                 }
@@ -45,8 +45,8 @@ namespace TimeHistoryResponseAnalysis
                     //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnaModel = new NigamJenningsModel();
-                    //var result = model.Calc(wave, waveAnaModel);
+                    //var waveAnalysisModel = new NigamJenningsModel();
+                    //var result = model.Calc(wave, waveAnalysisModel);
 
                     //result.OutputTimeHistoryToCsv();
                 }
@@ -58,18 +58,18 @@ namespace TimeHistoryResponseAnalysis
                     //var rfc = new BilinearModel(2, 0.1, 8);
                     //var rfc = new DegradingBilinearModel(2, 0.1, 8, 0.4);
                     //var rfc = new CloughModel_Simple(2, 0.1, 8);
-                    //var rfc = new CloughModel(2, 0.1, 8);
-                    var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
+                    var rfc = new CloughModel(2, 0.1, 8);
+                    //var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
 
                     var model = SDoFModel.FromT(1, 0.03, rfc);
 
                     var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnaModel = new NewmarkBetaModel(0.25);
-                    var waveAnaModel = new NigamJenningsModel();
+                    //var waveAnalysisModel = new NewmarkBetaModel(0.25);
+                    var waveAnalysisModel = new NigamJenningsModel();
 
-                    var result = model.Calc(wave, waveAnaModel);
+                    var result = model.Calc(wave, waveAnalysisModel);
 
                     result.OutputTimeHistoryToCsv();
                 }
