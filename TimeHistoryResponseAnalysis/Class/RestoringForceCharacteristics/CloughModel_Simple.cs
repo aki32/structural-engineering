@@ -5,21 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class CloughModel : IRestoringForceCharacteristics
+public class CloughModel_Simple : IRestoringForceCharacteristics
 {
     public double K1 { get; set; }
     public double beta { get; set; }
     public double Fy { get; set; }
+
+    private double lastX = 0d;
+    private double lastF = 0d;
 
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
     private double MinX = 0d;
 
-    private double lastX = 0d;
-    private double lastF = 0d;
 
-    public CloughModel(double K1, double beta, double Fy)
+    public CloughModel_Simple(double K1, double beta, double Fy)
     {
         this.K1 = K1;
         this.beta = beta;

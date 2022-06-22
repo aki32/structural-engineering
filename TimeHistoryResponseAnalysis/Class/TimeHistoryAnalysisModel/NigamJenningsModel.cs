@@ -1,4 +1,4 @@
-﻿using Aki32_Utilities.OwesomeModels.TimeHistoryModel;
+﻿using Aki32_Utilities.OwesomeModels;
 using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
 

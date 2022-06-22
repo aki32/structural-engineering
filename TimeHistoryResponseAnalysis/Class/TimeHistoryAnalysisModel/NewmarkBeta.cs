@@ -1,5 +1,5 @@
 ﻿using TimeHistoryResponseAnalysis.Class.StructuralModel;
-using Aki32_Utilities.OwesomeModels.TimeHistoryModel;
+using Aki32_Utilities.OwesomeModels;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
 public class NewmarkBetaModel : ITimeHistoryAnalysisModel
