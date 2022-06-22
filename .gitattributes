@@ -3,6 +3,9 @@
 ###############################################################################
 * text=auto
 
+* linguist-documentation
+*.cs linguist-documentation=false
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
