@@ -34,7 +34,6 @@ public class CloughModel_Simple : RestoringForceCharacteristics
 
     public override double CalcNextF(double targetX)
     {
-        // TODO: organize
         if (LastX == targetX)
             return CurrentF;
 
@@ -110,15 +109,5 @@ public class CloughModel_Simple : RestoringForceCharacteristics
                 return K1;
         }
     }
-
-    //private double Get2ndLinearF(double X)
-    //{
-    //    var Xy = Fy * K1;
-    //    var dX = X - Xy;
-    //    var dF = K1 * beta * dX;
-    //    return Fy + dF;
-    //}
-
-    // ★★★★★★★★★★★★★★★
 
 }

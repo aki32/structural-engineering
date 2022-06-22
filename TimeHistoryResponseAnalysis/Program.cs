@@ -51,10 +51,15 @@ namespace TimeHistoryResponseAnalysis
                     //result.OutputTimeHistoryToCsv();
                 }
 
-                // clough model + nigam jenning
+                // combined
                 {
-                    var rfc = new CloughModel_Simple(2, 0.1, 8);
+                    //var rfc = new ElasticModel(2);
+                    //var rfc = new PerfectElastoPlasticModel(2, 8);
+                    var rfc = new BilinearModel(2, 0.1, 8);
+                    //var rfc = new DegradingBilinearModel(2, 0.1, 8, 0.4);
+                    //var rfc = new CloughModel_Simple(2, 0.1, 8);
                     //var rfc = new CloughModel(2, 0.1, 8);
+                    //var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
 
                     var model = SDoFModel.FromT(1, 0.03, rfc);
 
@@ -97,7 +102,6 @@ namespace TimeHistoryResponseAnalysis
                     //}
 
                 }
-
 
             }
 
