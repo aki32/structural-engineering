@@ -1,13 +1,13 @@
 ﻿
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class CloughModel : RestoringForceCharacteristics
+public class DegradingCloughModel : RestoringForceCharacteristics
 {
 
     #region ★★★★★★★★★★★★★★★ プロパティたち
 
     public double beta { get; set; }
     public double Fy { get; set; }
-
+    public double alpha { get; set; }
     public double K2 => K1 * beta;
 
     private double MaxF = 0d;
@@ -17,11 +17,12 @@ public class CloughModel : RestoringForceCharacteristics
 
     #endregion
 
-    public CloughModel(double K1, double beta, double Fy)
+    public DegradingCloughModel(double K1, double beta, double Fy, double alpha)
     {
         this.K1 = K1;
         this.beta = beta;
         this.Fy = Fy;
+        this.alpha = alpha;
 
         MaxF = Fy;
         MaxX = MaxF / K1;
@@ -92,7 +93,7 @@ public class CloughModel : RestoringForceCharacteristics
     }
 
     /// <summary>
-    /// (X1,F1),(X2,F2)の2点を通過する直線上の targetX での F を返します。
+    /// (X1,F1),(X2,F2)の2点を通過する直線上の targetX での F を返す。
     /// </summary>
     /// <param name="X1"></param>
     /// <param name="F1"></param>
