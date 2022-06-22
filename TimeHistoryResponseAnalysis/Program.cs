@@ -27,7 +27,7 @@ namespace TimeHistoryResponseAnalysis
 
                 // newmark beta
                 {
-                    //var model = new SDoFModel(1, 0.03);
+                    //var model = SDoFModel.FromT(1, 0.03);
 
                     //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
@@ -40,7 +40,7 @@ namespace TimeHistoryResponseAnalysis
 
                 // nigam jennings
                 {
-                    //var model = new SDoFModel(1, 0.03);
+                    //var model = SDoFModel.FromT(1, 0.03);
 
                     //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
@@ -48,19 +48,21 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnaModel = new NigamJenningsModel();
                     //var result = model.Calc(wave, waveAnaModel);
 
-                    //result.OutputWaveHistoryToCsv();
+                    //result.OutputTimeHistoryToCsv();
                 }
 
                 // clough model + nigam jenning
                 {
-                    var rfc = new CloughModel(2, 0.1, 8);
+                    var rfc = new CloughModel_Simple(2, 0.1, 8);
+                    //var rfc = new CloughModel(2, 0.1, 8);
 
-                    var model = new SDoFModel(1, 0.03, rfc);
+                    var model = SDoFModel.FromT(1, 0.03, rfc);
 
                     var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
                     var waveAnaModel = new NigamJenningsModel();
+                    //var waveAnaModel = new NewmarkBetaModel(0.25);
 
                     var result = model.Calc(wave, waveAnaModel);
 

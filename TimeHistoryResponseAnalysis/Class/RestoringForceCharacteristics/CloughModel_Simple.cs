@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class CloughModel_Simple : IRestoringForceCharacteristics
+public class CloughModel_Simple : RestoringForceCharacteristics
 {
-    public double K1 { get; set; }
+
+    #region ★★★★★★★★★★★★★★★ プロパティたち
+
     public double beta { get; set; }
     public double Fy { get; set; }
-
-    private double lastX = 0d;
-    private double lastF = 0d;
 
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
     private double MinX = 0d;
 
+    #endregion
 
     public CloughModel_Simple(double K1, double beta, double Fy)
     {
@@ -32,48 +32,51 @@ public class CloughModel_Simple : IRestoringForceCharacteristics
         MinX = MinF / K1;
     }
 
-    double IRestoringForceCharacteristics.CalcNextF(double targetX)
+    public override double CalcNextF(double targetX)
     {
         // TODO: organize
-        if (targetX == lastX)
-            return lastF;
+        if (LastX == targetX)
+            return CurrentF;
 
-        // まずはKそのまま与えちゃう。
-        var K = GetK(targetX);
-        var dX = targetX - lastX;
+        LastX = CurrentX;
+        LastF = CurrentF;
+        CurrentX = targetX;
 
-        lastX = targetX;
-        lastF += dX * K;
+        // シンプルに，K そのまま与えちゃう。
+        var K = GetK(CurrentX);
+        var dX = CurrentX - LastX;
+
+        CurrentF += dX * K;
         RenewMinMax();
 
-        return lastF;
+        return CurrentF;
     }
 
     private void RenewMinMax()
     {
-        if (lastX > MaxX)
+        if (CurrentX > MaxX)
         {
-            MaxX = lastX;
-            MaxF = lastF;
+            MaxX = CurrentX;
+            MaxF = CurrentF;
         }
-        else if (lastX < MinX)
+        else if (CurrentX < MinX)
         {
-            MinX = lastX;
-            MinF = lastF;
+            MinX = CurrentX;
+            MinF = CurrentF;
         }
     }
 
     private double GetK(double targetX)
     {
         // right
-        if (targetX > lastX)
+        if (targetX > LastX)
         {
             // from positive
-            if (lastF > 0)
+            if (LastF > 0)
             {
                 // toward max point
-                if (lastX < MaxX)
-                    return (MaxF - lastF) / (MaxX - lastX);
+                if (LastX < MaxX)
+                    return (MaxF - LastF) / (MaxX - LastX);
 
                 // toward new max point
                 else
@@ -90,11 +93,11 @@ public class CloughModel_Simple : IRestoringForceCharacteristics
         else
         {
             // from negative
-            if (lastF < 0)
+            if (LastF < 0)
             {
                 // toward min point
-                if (lastX > MinX)
-                    return (MinF - lastF) / (MinX - lastX);
+                if (LastX > MinX)
+                    return (MinF - LastF) / (MinX - LastX);
 
                 // toward new min point
                 else
@@ -108,13 +111,14 @@ public class CloughModel_Simple : IRestoringForceCharacteristics
         }
     }
 
-    private double Get2ndLinearF(double X)
-    {
-        var Xy = Fy * K1;
-        var dX = X - Xy;
-        var dF = K1 * beta * dX;
-        return Fy + dF;
-    }
+    //private double Get2ndLinearF(double X)
+    //{
+    //    var Xy = Fy * K1;
+    //    var dX = X - Xy;
+    //    var dF = K1 * beta * dX;
+    //    return Fy + dF;
+    //}
 
+    // ★★★★★★★★★★★★★★★
 
 }

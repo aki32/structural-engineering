@@ -1,24 +1,62 @@
 ﻿using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-using TimeHistoryResponseAnalysis.Class.StructuralModel;
 using TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
 using Aki32_Utilities.OwesomeModels;
 
 namespace TimeHistoryResponseAnalysis.Class.StructuralModel;
 public class SDoFModel
 {
-    public double T { get; set; }
-    public double h { get; set; }
-    public IRestoringForceCharacteristics RFC { get; set; }
 
-    public SDoFModel(double T, double h = 0, IRestoringForceCharacteristics rfc = null)
+    // ★★★★★★★★★★★★★★★ プロパティたち
+
+    public RestoringForceCharacteristics.RestoringForceCharacteristics RFC { get; set; }
+
+    public double h { get; set; }
+    public double m { get; set; }
+
+    public double w => Math.Sqrt(RFC.CurrentK / m);
+    public double T => 2 * Math.PI / w;
+
+    public double wo;
+    public double To;
+
+    // ★★★★★★★★★★★★★★★ 初期化
+
+    #region initializers
+
+    private SDoFModel(double m, double h, RestoringForceCharacteristics.RestoringForceCharacteristics rFC)
     {
-        this.T = T;
+        RFC = rFC;
+
         this.h = h;
-        RFC = rfc;
+        this.m = m;
+
+        wo = w;
+        To = T;
     }
+    public static SDoFModel FromM(double m, double h = 0, RestoringForceCharacteristics.RestoringForceCharacteristics? rfc = null)
+    {
+        if (rfc == null)
+            rfc = new ElasticModel(1);
+        return new SDoFModel(m, h, rfc);
+    }
+    public static SDoFModel FromT(double T, double h = 0, RestoringForceCharacteristics.RestoringForceCharacteristics? rfc = null)
+    {
+        if (rfc == null)
+            rfc = new ElasticModel(1);
+        var initialwo = 2 * Math.PI / T;
+        var m = rfc.K1 / (initialwo * initialwo);
+        return new SDoFModel(m, h, rfc);
+    }
+
+    #endregion
+
+    // ★★★★★★★★★★★★★★★ メソッド
 
     public TimeHistory Calc(TimeHistory wave, ITimeHistoryAnalysisModel thaModel)
     {
         return thaModel.Calc(this, wave);
     }
+
+    // ★★★★★★★★★★★★★★★
+
 }

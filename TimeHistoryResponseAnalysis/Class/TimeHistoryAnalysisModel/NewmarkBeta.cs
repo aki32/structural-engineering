@@ -26,21 +26,29 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
         var resultHistory = (TimeHistory)wave.Clone();
         resultHistory.__resultFileName = "NewmarkBeta";
 
-        var epModel = model.RFC;
+        var rfcModel = model.RFC;
         var h = model.h;
-        var T = model.T;
-        var TimeStep = wave.TimeStep;
-
-        var wo = 2 * Math.PI / T;
-        var xtt_sub = 1 + h * wo * TimeStep + beta * wo * wo * TimeStep * TimeStep;
+        var m = model.m;
+        var dt = wave.TimeStep;
 
         for (int i = 1; i < resultHistory.DataRowCount; i++)
         {
             var p = resultHistory.GetStep(i - 1);
             var c = resultHistory.GetStep(i);
-            c.xtt = -(c.ytt + 2 * h * wo * (p.xt + 0.5 * p.xtt * TimeStep) + wo * wo * (p.x + p.xt * TimeStep + (0.5 - beta) * p.xtt * TimeStep * TimeStep) / xtt_sub);
-            c.xt = p.xt + 0.5 * (p.xtt + c.xtt) * TimeStep;
-            c.x = p.x + p.xt * TimeStep + ((0.5 - beta) * p.xtt + beta * c.xtt) * TimeStep * TimeStep;
+
+            var F = rfcModel.CurrentF;
+            var w = model.w;
+            var w2 = w * w;
+
+            // x → F/(m*w2)
+            var xtt_nume1 = c.ytt + 2 * h * w * (p.xt + 0.5 * p.xtt * dt);
+            var xtt_nume2 = w2 * ((F / (m * w2)) + p.xt * dt + (0.5 - beta) * p.xtt * dt * dt);
+            var xtt_nume = xtt_nume1 + xtt_nume2;
+            var xtt_denom = 1 + h * w * dt + beta * w2 * dt * dt;
+            c.xtt = -xtt_nume / xtt_denom;
+            c.xt = p.xt + 0.5 * (p.xtt + c.xtt) * dt;
+            c.x = p.x + p.xt * dt + ((0.5 - beta) * p.xtt + beta * c.xtt) * dt * dt;
+            c.f = rfcModel.CalcNextF(c.x);
 
             resultHistory.SetStep(i, c);
         }

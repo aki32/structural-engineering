@@ -22,27 +22,13 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
         var resultHistory = (TimeHistory)wave.Clone();
         resultHistory.__resultFileName = "NigamJennings";
 
-        var epModel = model.RFC;
+        var rfcModel = model.RFC;
         var h = model.h;
-        var T = model.T;
+        var m = model.m;
         var TimeStep = wave.TimeStep;
 
-        #region 一定となる係数の事前計算
-
-        var wo = 2 * Math.PI / T;
-        var wo2 = wo * wo;
-        var wo3 = wo * wo * wo;
-        var m = 0d;
-        if (epModel != null)
-            m = epModel.K1 / wo2;
-        var e = Math.Pow(Math.E, -1.0 * h * wo * TimeStep);
         var h1 = Math.Sqrt(1.0 - h * h); // √1-h2
         var h2 = 2 * h * h - 1;          // 2h2-1
-        var wd = h1 * wo;
-        var sin = Math.Sin(wd * TimeStep);
-        var cos = Math.Cos(wd * TimeStep);
-
-        #endregion
 
         for (int i = 1; i < resultHistory.DataRowCount; i++)
         {
@@ -51,11 +37,21 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
 
             #region 係数の計算
 
+            // 便利
+            var w = model.w;
+            var w2 = w * w;
+            var w3 = w * w * w;
+            var wd = h1 * w;
+            var e = Math.Pow(Math.E, -1.0 * h * w * TimeStep);
+            var sin = Math.Sin(wd * TimeStep);
+            var cos = Math.Cos(wd * TimeStep);
+
+            // nigam の係数
             var a11 = e * (h / h1 * sin + cos);
 
             var a12 = e / wd * sin;
 
-            var a21 = -e * wo / h1 * sin;
+            var a21 = -e * w / h1 * sin;
 
             var a22 = e * (cos - h / h1 * sin);
 
@@ -63,66 +59,60 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
                 e
                 *
                 (
-                    (h2 / wo2 / TimeStep + h / wo) * sin / wd
+                    (h2 / w2 / TimeStep + h / w) * sin / wd
                     +
-                    (2 * h / wo3 / TimeStep + 1 / wo2) * cos
+                    (2 * h / w3 / TimeStep + 1 / w2) * cos
                 )
                 -
-                2 * h / wo3 / TimeStep
+                2 * h / w3 / TimeStep
                 ;
 
             var b12 =
                 -e
                 *
                 (
-                    h2 / wo2 / TimeStep * sin / wd
+                    h2 / w2 / TimeStep * sin / wd
                     +
-                    2 * h / wo3 / TimeStep * cos
+                    2 * h / w3 / TimeStep * cos
                 )
                 -
-                1 / wo2
+                1 / w2
                 +
-                2 * h / wo3 / TimeStep;
+                2 * h / w3 / TimeStep;
 
 
             var b21 =
                 e
                 *
                 (
-                    (h2 / wo2 / TimeStep + h / wo) * (cos - h / h1 * sin)
+                    (h2 / w2 / TimeStep + h / w) * (cos - h / h1 * sin)
                     -
-                    (2 * h / wo3 / TimeStep + 1 / wo2) * (wd * sin + h * wo * cos)
+                    (2 * h / w3 / TimeStep + 1 / w2) * (wd * sin + h * w * cos)
                 )
                 +
 
-                    1 / wo2 / TimeStep
+                    1 / w2 / TimeStep
                 ;
 
             var b22 =
                -e
                *
                (
-                   h2 / wo2 / TimeStep * (cos - h / h1 * sin)
+                   h2 / w2 / TimeStep * (cos - h / h1 * sin)
                    -
-                   2 * h / wo3 / TimeStep * (wd * sin + h * wo * cos)
+                   2 * h / w3 / TimeStep * (wd * sin + h * w * cos)
                )
                -
-               1 / wo2 / TimeStep
+               1 / w2 / TimeStep
                ;
 
             #endregion
 
             c.x = a11 * p.x + a12 * p.xt + b11 * p.ytt + b12 * p.ytt;
             c.xt = a21 * p.x + a22 * p.xt + b21 * p.ytt + b22 * p.ytt;
-
-            if (epModel == null)
-                c.xtt = p.ytt - 2 * h * wo * c.xt - wo2 * c.x;
-            else
-            {
-                var F = epModel.CalcNextF(c.x);
-                c.xtt = p.ytt - 2 * h * wo * c.xt - F / m;
-                c.f = F;
-            }
+            var F = rfcModel.CalcNextF(c.x);
+            c.xtt = p.ytt - 2 * h * w * c.xt - F / m;  // wo2*x → F/m
+            c.f = F;
 
             resultHistory.SetStep(i, c);
         }
