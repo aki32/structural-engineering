@@ -15,6 +15,11 @@ public class DegradingCloughModel : RestoringForceCharacteristics
     private double MinF = 0d;
     private double MinX = 0d;
 
+    private bool IsInDegradingState = false;
+    private bool IsDegradingStatePositive = false;
+    private double Xr_Start = 0;
+    private double Kr = 0;
+
     #endregion
 
     public DegradingCloughModel(double K1, double beta, double Fy, double alpha)
@@ -38,6 +43,8 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         LastX = CurrentX;
         LastF = CurrentF;
         CurrentX = targetX;
+
+      
 
         #region fを求める
 

@@ -51,28 +51,46 @@ namespace TimeHistoryResponseAnalysis
                     //result.OutputTimeHistoryToCsv();
                 }
 
+
                 // combined
                 {
-                    //var rfc = new ElasticModel(2);
-                    //var rfc = new PerfectElastoPlasticModel(2, 8);
-                    //var rfc = new BilinearModel(2, 0.1, 8);
-                    //var rfc = new DegradingBilinearModel(2, 0.1, 8, 0.4);
-                    //var rfc = new CloughModel_Simple(2, 0.1, 8);
-                    var rfc = new CloughModel(2, 0.1, 8);
-                    //var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
+                    //var rfc = new CloughModel(2, 0.1, 8);
+                    var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
 
-                    var model = SDoFModel.FromT(1, 0.03, rfc);
+                    var wave = new TimeHistory();
 
-                    var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    var savePath = new FileInfo(@$"{basePath}\output\result - test.csv");
                     var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnalysisModel = new NewmarkBetaModel(0.25);
-                    var waveAnalysisModel = new NigamJenningsModel();
 
-                    var result = model.Calc(wave, waveAnalysisModel);
+                    var tester = new RFCTester();
+                    var result = tester.Calc(wave);
 
                     result.OutputTimeHistoryToCsv();
                 }
+
+                //// combined
+                //{
+                //    //var rfc = new ElasticModel(2);
+                //    //var rfc = new PerfectElastoPlasticModel(2, 8);
+                //    //var rfc = new BilinearModel(2, 0.1, 8);
+                //    //var rfc = new DegradingBilinearModel(2, 0.1, 8, 0.4);
+                //    //var rfc = new CloughModel(2, 0.1, 8);
+                //    var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
+
+                //    var model = SDoFModel.FromT(1, 0.03, rfc);
+
+                //    var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                //    var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
+
+                //    //var waveAnalysisModel = new NewmarkBetaModel(0.25);
+                //    var waveAnalysisModel = new NigamJenningsModel();
+
+                //    var result = model.Calc(wave, waveAnalysisModel);
+
+                //    result.OutputTimeHistoryToCsv();
+                //}
+
 
                 // spectrum analysis with newmark beta
                 // TODO : make this a class
