@@ -36,5 +36,4 @@ public abstract class RestoringForceCharacteristics
     public double CurrentF { get; set; }
     public double LastX { get; set; }
     public double LastF { get; set; }
-
 }

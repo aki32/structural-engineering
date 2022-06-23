@@ -40,7 +40,7 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         this.Fy = Fy;
         this.alpha = alpha;
 
-        Xy = Fy;
+        Xy = Fy / K1;
         MaxF = Fy;
         MaxX = Fy / K1;
         MinF = -Fy;
@@ -63,11 +63,17 @@ public class DegradingCloughModel : RestoringForceCharacteristics
 
         #region fを求める
 
+
+        if (CurrentX >= 40)
+        {
+
+        }
+
+
         // 設計イラストの通り
         var dX = CurrentX - LastX;
-        var f1 = K1 * dX + LastF;
         var fr = Kr * dX + LastF;
-        var fy = K2 * CurrentX + ((CurrentX > LastX) ? Fy : -Fy);
+        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
         double fc; // fcrと兼用
 
         // 向かってる先でX軸をまたがない／またぐ

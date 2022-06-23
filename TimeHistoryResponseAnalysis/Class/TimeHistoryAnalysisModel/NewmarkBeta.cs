@@ -24,7 +24,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
     public TimeHistory Calc(SDoFModel model, TimeHistory wave)
     {
         var resultHistory = (TimeHistory)wave.Clone();
-        resultHistory.__resultFileName = "NewmarkBeta";
+        resultHistory.resultFileName = $"{wave.Name} - {model.RFC.GetType().Name} - {GetType().Name}";
 
         var rfcModel = model.RFC;
         var h = model.h;

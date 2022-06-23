@@ -10,6 +10,7 @@ public class CloughModel : RestoringForceCharacteristics
 
     public double K2 => K1 * beta;
 
+    private double Xy = 0d;
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
@@ -29,6 +30,7 @@ public class CloughModel : RestoringForceCharacteristics
         this.beta = beta;
         this.Fy = Fy;
 
+        Xy = Fy / K1;
         MaxF = Fy;
         MaxX = MaxF / K1;
         MinF = -Fy;
@@ -54,7 +56,7 @@ public class CloughModel : RestoringForceCharacteristics
         // 設計イラストの通り
         var dX = CurrentX - LastX;
         var f1 = K1 * dX + LastF;
-        var fy = K2 * CurrentX + ((CurrentX > LastX) ? Fy : -Fy);
+        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
         double fc; // fc0と兼用
 
         // 向かってる先でX軸をまたがない／またぐ
