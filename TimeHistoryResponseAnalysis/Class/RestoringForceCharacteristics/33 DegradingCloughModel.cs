@@ -63,18 +63,11 @@ public class DegradingCloughModel : RestoringForceCharacteristics
 
         #region fを求める
 
-
-        if (CurrentX >= 40)
-        {
-
-        }
-
-
         // 設計イラストの通り
         var dX = CurrentX - LastX;
         var fr = Kr * dX + LastF;
         var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
-        double fc; // fcrと兼用
+        double fc; // fcrなどと兼用
 
         // 向かってる先でX軸をまたがない／またぐ
         if ((CurrentX > LastX && LastF > 0) || (CurrentX < LastX && LastF < 0))
@@ -99,9 +92,10 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         }
         else
         {
-            // fc0
-            var HitX = LastX + (-LastF / K1);
+            // DegradingState に居るかどうかで，傾きが変わる。
+            double HitX = LastX + (-LastF / (IsInDegradingState ? Kr : K1));
 
+            // fc0, fcr0
             if (CurrentX > LastX)
                 fc = CalcF_FromPoints(HitX, 0, MaxX, MaxF, CurrentX);
             else
