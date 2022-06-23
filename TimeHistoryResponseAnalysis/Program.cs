@@ -52,21 +52,17 @@ namespace TimeHistoryResponseAnalysis
                 }
 
 
-                // combined
+                // rfc test
                 {
-                    //var rfc = new CloughModel(2, 0.1, 8);
+                    //var rfc = new CloughModel(2, 0.1, 90);
                     var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
 
-                    var wave = new TimeHistory();
-
-                    var savePath = new FileInfo(@$"{basePath}\output\result - test.csv");
-                    var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
-
-
-                    var tester = new RFCTester();
+                    var tester = new RFCTester(rfc);
+                    var wave = RFCTester.GetTestWave1();
                     var result = tester.Calc(wave);
 
-                    result.OutputTimeHistoryToCsv();
+                    var saveFile = new FileInfo(@$"{basePath}\output\result - test.csv");
+                    result.OutputTimeHistoryToCsv(saveFile);
                 }
 
                 //// combined
