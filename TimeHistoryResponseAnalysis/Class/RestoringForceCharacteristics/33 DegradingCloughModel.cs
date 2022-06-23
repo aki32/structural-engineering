@@ -10,7 +10,7 @@ public class DegradingCloughModel : RestoringForceCharacteristics
     public double alpha { get; set; }
 
     public double K2 => K1 * beta;
-    public double Kr => K1 * Math.Pow(Math.Abs(Math.Max(1, DegradeStartX / Xy)), -alpha);
+    public double Kr => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha);
 
     private double Xy = 0d;
     private double MaxF = 0d;
