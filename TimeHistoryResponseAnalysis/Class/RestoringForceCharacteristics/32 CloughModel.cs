@@ -17,6 +17,12 @@ public class CloughModel : RestoringForceCharacteristics
 
     #endregion
 
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="K1"></param>
+    /// <param name="beta"></param>
+    /// <param name="Fy"></param>
     public CloughModel(double K1, double beta, double Fy)
     {
         this.K1 = K1;
@@ -29,6 +35,11 @@ public class CloughModel : RestoringForceCharacteristics
         MinX = MinF / K1;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="targetX"></param>
+    /// <returns></returns>
     public override double CalcNextF(double targetX)
     {
         if (LastX == targetX)
@@ -49,19 +60,21 @@ public class CloughModel : RestoringForceCharacteristics
         // 向かってる先でX軸をまたがない／またぐ
         if ((CurrentX > LastX && LastF > 0) || (CurrentX < LastX && LastF < 0))
         {
+            // fc
             if (CurrentX > LastX)
-                fc = GetF(LastX, LastF, MaxX, MaxF, CurrentX);
+                fc = CalcF_FromPoints(LastX, LastF, MaxX, MaxF, CurrentX);
             else
-                fc = GetF(LastX, LastF, MinX, MinF, CurrentX);
+                fc = CalcF_FromPoints(LastX, LastF, MinX, MinF, CurrentX);
         }
         else
         {
+            // fc0
             var HitX = LastX + (-LastF / K1);
 
             if (CurrentX > LastX)
-                fc = GetF(HitX, 0, MaxX, MaxF, CurrentX);
+                fc = CalcF_FromPoints(HitX, 0, MaxX, MaxF, CurrentX);
             else
-                fc = GetF(HitX, 0, MinX, MinF, CurrentX);
+                fc = CalcF_FromPoints(HitX, 0, MinX, MinF, CurrentX);
         }
 
         // 最小値／最大値
@@ -77,6 +90,29 @@ public class CloughModel : RestoringForceCharacteristics
         return CurrentF;
     }
 
+    /// <summary>
+    /// (X1,F1),(X2,F2)の2点を通過する直線上の targetX での F を返す。
+    /// </summary>
+    /// <param name="X1"></param>
+    /// <param name="F1"></param>
+    /// <param name="X2"></param>
+    /// <param name="Y2"></param>
+    /// <param name="targetX"></param>
+    /// <returns></returns>
+    private double CalcF_FromPoints(double X1, double F1, double X2, double Y2, double targetX)
+    {
+        double Kc;
+        if (X1 == X2)
+            Kc = K2;
+        else
+            Kc = (Y2 - F1) / (X2 - X1);
+        Kc = Math.Min(K1, Kc); // for safety
+        return Kc * (targetX - X1) + F1;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void UpdateMinMax()
     {
         if (CurrentX > MaxX)
@@ -89,26 +125,6 @@ public class CloughModel : RestoringForceCharacteristics
             MinX = CurrentX;
             MinF = CurrentF;
         }
-    }
-
-    /// <summary>
-    /// (X1,F1),(X2,F2)の2点を通過する直線上の targetX での F を返す。
-    /// </summary>
-    /// <param name="X1"></param>
-    /// <param name="F1"></param>
-    /// <param name="X2"></param>
-    /// <param name="Y2"></param>
-    /// <param name="targetX"></param>
-    /// <returns></returns>
-    double GetF(double X1, double F1, double X2, double Y2, double targetX)
-    {
-        double Kc;
-        if (X1 == X2)
-            Kc = K2;
-        else
-            Kc = (Y2 - F1) / (X2 - X1);
-        Kc = Math.Min(K1, Kc); // for safety
-        return Kc * (targetX - X1) + F1;
     }
 
 }
