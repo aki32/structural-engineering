@@ -112,6 +112,7 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
             c.xt = a21 * p.x + a22 * p.xt + b21 * p.ytt + b22 * p.ytt;
             var F = rfcModel.CalcNextF(c.x);
             c.xtt = p.ytt - 2 * h * w * c.xt - F / m;  // wo2*x → F/m
+            c.xtt_ytt = c.xtt + c.ytt;
             c.f = F;
 
             resultHistory.SetStep(i, c);

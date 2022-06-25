@@ -48,6 +48,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
             c.xtt = -xtt_nume / xtt_denom;
             c.xt = p.xt + 0.5 * (p.xtt + c.xtt) * dt;
             c.x = p.x + p.xt * dt + ((0.5 - beta) * p.xtt + beta * c.xtt) * dt * dt;
+            c.xtt_ytt = c.xtt + c.ytt;
             c.f = rfcModel.CalcNextF(c.x);
 
             resultHistory.SetStep(i, c);
