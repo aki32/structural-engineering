@@ -3,8 +3,13 @@
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 public class RFCTester
 {
+
+    // ★★★★★★★★★★★★★★★ props
+
     public RestoringForceCharacteristics rfc { get; set; }
 
+    // ★★★★★★★★★★★★★★★ inits
+    
     public RFCTester(RestoringForceCharacteristics rfc)
     {
         this.rfc = rfc;
@@ -19,6 +24,8 @@ public class RFCTester
             resultHistory.f[i] = rfc.CalcNextF(wave.x[i]);
         return resultHistory;
     }
+
+    // ★★★★★★★★★★★★★★★ methods
 
     /// <summary>
     /// get new test wave
@@ -46,5 +53,7 @@ public class RFCTester
         };
         return th;
     }
+
+    // ★★★★★★★★★★★★★★★
 
 }

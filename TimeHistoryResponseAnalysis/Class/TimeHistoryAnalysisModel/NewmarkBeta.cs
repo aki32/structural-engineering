@@ -4,16 +4,19 @@ using Aki32_Utilities.OwesomeModels;
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
 public class NewmarkBetaModel : ITimeHistoryAnalysisModel
 {
+
+    // ★★★★★★★★★★★★★★★ props
+
     public double beta { get; set; }
 
-    /// <summary>
-    /// constructor
-    /// </summary>
-    /// <param name="beta"></param>
+    // ★★★★★★★★★★★★★★★ inits
+
     public NewmarkBetaModel(double beta)
     {
         this.beta = beta;
     }
+
+    // ★★★★★★★★★★★★★★★ methods
 
     /// <summary>
     /// Run newmark beta method
@@ -56,5 +59,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
 
         return resultHistory;
     }
+
+    // ★★★★★★★★★★★★★★★
 
 }

@@ -1,16 +1,20 @@
 ﻿using Aki32_Utilities.OwesomeModels;
-using TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 using TimeHistoryResponseAnalysis.Class.StructuralModel;
 
 namespace TimeHistoryResponseAnalysis.Class.TimeHistoryAnalysisModel;
 public class NigamJenningsModel : ITimeHistoryAnalysisModel
 {
+
+    // ★★★★★★★★★★★★★★★ inits
+
     /// <summary>
     /// constructor
     /// </summary>
     public NigamJenningsModel()
     {
     }
+
+    // ★★★★★★★★★★★★★★★ methods
 
     /// <summary>
     /// Run Nigam-Jenning's method
@@ -120,5 +124,7 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
 
         return resultHistory;
     }
+
+    // ★★★★★★★★★★★★★★★
 
 }

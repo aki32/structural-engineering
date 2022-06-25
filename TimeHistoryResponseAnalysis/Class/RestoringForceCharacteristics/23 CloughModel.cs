@@ -3,12 +3,11 @@ namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 public class CloughModel : RestoringForceCharacteristics
 {
 
-    #region ★★★★★★★★★★★★★★★ プロパティたち
+    // ★★★★★★★★★★★★★★★ props
 
-    public double beta { get; set; }
     public double Fy { get; set; }
 
-    public double K2 => K1 * beta;
+    public double K2 { get; set; }
 
     private double Xy = 0d;
     private double MaxF = 0d;
@@ -16,18 +15,12 @@ public class CloughModel : RestoringForceCharacteristics
     private double MinF = 0d;
     private double MinX = 0d;
 
-    #endregion
+    // ★★★★★★★★★★★★★★★ inits
 
-    /// <summary>
-    /// constructor
-    /// </summary>
-    /// <param name="K1"></param>
-    /// <param name="beta"></param>
-    /// <param name="Fy"></param>
     public CloughModel(double K1, double beta, double Fy)
     {
         this.K1 = K1;
-        this.beta = beta;
+        this.K2 = K1 * beta;
         this.Fy = Fy;
 
         Xy = Fy / K1;
@@ -37,11 +30,8 @@ public class CloughModel : RestoringForceCharacteristics
         MinX = MinF / K1;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="targetX"></param>
-    /// <returns></returns>
+    // ★★★★★★★★★★★★★★★ methods
+
     public override double CalcNextF(double targetX)
     {
         if (LastX == targetX)
@@ -55,8 +45,8 @@ public class CloughModel : RestoringForceCharacteristics
 
         // 設計イラストの通り
         var dX = CurrentX - LastX;
-        var f1 = K1 * dX + LastF;
-        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
+        var f1r = K1 * dX + LastF;
+        var f2 = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
         double fc; // fc0と兼用
 
         // 向かってる先でX軸をまたがない／またぐ
@@ -80,7 +70,7 @@ public class CloughModel : RestoringForceCharacteristics
         }
 
         // 最小値／最大値
-        var fs = new List<double> { f1, fy, fc };
+        var fs = new List<double> { f1r, f2, fc };
         if (CurrentX > LastX)
             CurrentF = fs.Min();
         else
@@ -88,7 +78,21 @@ public class CloughModel : RestoringForceCharacteristics
 
         #endregion
 
-        UpdateMinMax();
+        #region 最大最小を更新
+
+        if (CurrentX > MaxX)
+        {
+            MaxX = CurrentX;
+            MaxF = CurrentF;
+        }
+        else if (CurrentX < MinX)
+        {
+            MinX = CurrentX;
+            MinF = CurrentF;
+        }
+
+        #endregion
+
         return CurrentF;
     }
 
@@ -112,21 +116,6 @@ public class CloughModel : RestoringForceCharacteristics
         return Kc * (targetX - X1) + F1;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private void UpdateMinMax()
-    {
-        if (CurrentX > MaxX)
-        {
-            MaxX = CurrentX;
-            MaxF = CurrentF;
-        }
-        else if (CurrentX < MinX)
-        {
-            MinX = CurrentX;
-            MinF = CurrentF;
-        }
-    }
+    // ★★★★★★★★★★★★★★★
 
 }

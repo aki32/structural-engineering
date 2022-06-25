@@ -3,10 +3,15 @@
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 public class ElasticModel : RestoringForceCharacteristics
 {
+
+    // ★★★★★★★★★★★★★★★ inits
+
     public ElasticModel(double K1)
     {
         this.K1 = K1;
     }
+
+    // ★★★★★★★★★★★★★★★ methods
 
     public override double CalcNextF(double targetX)
     {
@@ -20,4 +25,7 @@ public class ElasticModel : RestoringForceCharacteristics
         
         return CurrentF;
     }
+
+    // ★★★★★★★★★★★★★★★ 
+
 }

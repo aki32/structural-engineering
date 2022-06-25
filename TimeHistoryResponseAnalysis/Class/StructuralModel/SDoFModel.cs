@@ -7,7 +7,7 @@ namespace TimeHistoryResponseAnalysis.Class.StructuralModel;
 public class SDoFModel
 {
 
-    // ★★★★★★★★★★★★★★★ properties
+    // ★★★★★★★★★★★★★★★ props
 
     public RestoringForceCharacteristics.RestoringForceCharacteristics RFC { get; set; }
 
@@ -20,7 +20,7 @@ public class SDoFModel
     public double wo;
     public double To;
 
-    // ★★★★★★★★★★★★★★★ init
+    // ★★★★★★★★★★★★★★★ inits
 
     private SDoFModel(double m, double h, RestoringForceCharacteristics.RestoringForceCharacteristics rFC)
     {

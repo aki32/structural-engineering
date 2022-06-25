@@ -4,6 +4,9 @@
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 public abstract class RestoringForceCharacteristics
 {
+
+    // ★★★★★★★★★★★★★★★ props
+
     /// <summary>
     /// 初期剛性
     /// </summary>
@@ -36,4 +39,7 @@ public abstract class RestoringForceCharacteristics
     public double CurrentF { get; set; }
     public double LastX { get; set; }
     public double LastF { get; set; }
+    
+    // ★★★★★★★★★★★★★★★
+
 }

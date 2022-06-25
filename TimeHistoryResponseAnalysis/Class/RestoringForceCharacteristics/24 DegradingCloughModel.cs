@@ -3,13 +3,12 @@ namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
 public class DegradingCloughModel : RestoringForceCharacteristics
 {
 
-    #region ★★★★★★★★★★★★★★★ プロパティたち
+    // ★★★★★★★★★★★★★★★ props
 
-    public double beta { get; set; }
     public double Fy { get; set; }
     public double alpha { get; set; }
 
-    public double K2 => K1 * beta;
+    public double K2 { get; set; }
     public double Kr => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha);
 
     private double Xy = 0d;
@@ -22,21 +21,12 @@ public class DegradingCloughModel : RestoringForceCharacteristics
     private double DegradeStartX = 0;
     private double DegradeStartF = 0;
 
-    #endregion
+    // ★★★★★★★★★★★★★★★ inits
 
-    /// <summary>
-    /// constructor
-    /// </summary>
-    /// <param name="K1"></param>
-    /// <param name="beta"></param>
-    /// <param name="Fy"></param>
-    /// <param name="alpha">
-    /// RC : commonly, 0.4 - 0.5
-    /// </param>
     public DegradingCloughModel(double K1, double beta, double Fy, double alpha)
     {
         this.K1 = K1;
-        this.beta = beta;
+        this.K2 = K1 * beta;
         this.Fy = Fy;
         this.alpha = alpha;
 
@@ -47,11 +37,8 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         MinX = -Fy / K1;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="targetX"></param>
-    /// <returns></returns>
+    // ★★★★★★★★★★★★★★★ methods
+
     public override double CalcNextF(double targetX)
     {
         if (LastX == targetX)
@@ -65,8 +52,8 @@ public class DegradingCloughModel : RestoringForceCharacteristics
 
         // 設計イラストの通り
         var dX = CurrentX - LastX;
-        var fr = Kr * dX + LastF;
-        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
+        var f1r = Kr * dX + LastF;
+        var f2 = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
         double fc; // fcrなどと兼用
 
         // 向かってる先でX軸をまたがない／またぐ
@@ -103,14 +90,14 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         }
 
         // 最小値／最大値
-        var fs = new List<double> { fr, fy, fc };
+        var fs = new List<double> { f1r, f2, fc };
         if (CurrentX > LastX)
             CurrentF = fs.Min();
         else
             CurrentF = fs.Max();
 
         // もし fr を採用した場合は，DegradingState に居ることになる。そうでなければ DegradingState 外
-        if (fr == CurrentF)
+        if (f1r == CurrentF)
         {
             if (IsInDegradingState == false)
             {
@@ -126,7 +113,22 @@ public class DegradingCloughModel : RestoringForceCharacteristics
 
         #endregion
 
-        UpdateMinMax();
+
+        #region 最大最小を更新
+
+        if (CurrentX > MaxX)
+        {
+            MaxX = CurrentX;
+            MaxF = CurrentF;
+        }
+        else if (CurrentX < MinX)
+        {
+            MinX = CurrentX;
+            MinF = CurrentF;
+        }
+
+        #endregion
+
         return CurrentF;
     }
 
@@ -150,21 +152,6 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         return Kc * (targetX - X1) + F1;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private void UpdateMinMax()
-    {
-        if (CurrentX > MaxX)
-        {
-            MaxX = CurrentX;
-            MaxF = CurrentF;
-        }
-        else if (CurrentX < MinX)
-        {
-            MinX = CurrentX;
-            MinF = CurrentF;
-        }
-    }
+    // ★★★★★★★★★★★★★★★
 
 }
