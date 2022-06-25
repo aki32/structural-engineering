@@ -102,7 +102,7 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NewmarkBetaModel(0.25);
                     var waveAnalysisModel = new NigamJenningsModel();
 
-                    var resultSet = SDoFSpectrumCalculator.CalcSpectrum(TList, hList, wave, waveAnalysisModel, rfc);
+                    var resultSet = SDoFModel.CalcResponseSpectrum(TList, hList, wave, waveAnalysisModel, rfc);
                     resultSet.OutputToCsv(waveCsv.Directory);
                 }
 
