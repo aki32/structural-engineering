@@ -9,7 +9,6 @@ public static class SDoFSpectrumCalculator
 
     // ★★★★★★★★★★★★★★★
 
-    //public static (TimeHistory Sd, TimeHistory Sv, TimeHistory Sa)
     /// <summary>
     /// 
     /// </summary>
