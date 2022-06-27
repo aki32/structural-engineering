@@ -31,7 +31,7 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NewmarkBetaModel(0.25);
                     //var result = model.Calc(wave, waveAnalysisModel);
 
-                    //result.OutputTimeHistoryToCsv();
+                    //result.OutputToCsv();
                 }
 
                 // nigam jennings
@@ -44,54 +44,60 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NigamJenningsModel();
                     //var result = model.Calc(wave, waveAnalysisModel);
 
-                    //result.OutputTimeHistoryToCsv();
+                    //result.OutputToCsv();
                 }
 
                 // rfc test
                 {
-                    var rfcList = new List<RestoringForceCharacteristics>
-                    {
-                        new BilinearModel(2, 0.1, 80),
-                        new CloughModel(2, 0.1, 80),
-                        new DegradingCloughModel(2, 0.1, 80, 0.4),
-                        new ElasticBilinearModel(2, 0.1, 80),
-                        new ElasticTrilinearModel(2, 0.5, 80, 0.1, 100),
-                        new ElasticTetralinearModel(2, 0.5, 80, 0.25, 90, 0.1, 110),
-                    };
+                    //var rfcList = new List<RestoringForceCharacteristics>
+                    //{
+                    //    new BilinearModel(2, 0.1, 80),
+                    //    new CloughModel(2, 0.1, 80),
+                    //    new DegradingCloughModel(2, 0.1, 80, 0.4),
+                    //    new ElasticBilinearModel(2, 0.1, 80),
+                    //    new ElasticTrilinearModel(2, 0.5, 80, 0.1, 100),
+                    //    new ElasticTetralinearModel(2, 0.5, 80, 0.25, 90, 0.1, 110),
+                    //};
 
-                    foreach (var rfc in rfcList)
-                    {
-                        var tester = new RFCTester(rfc);
-                        var wave = RFCTester.GetTestWave1();
-                        var result = tester.Calc(wave);
+                    //foreach (var rfc in rfcList)
+                    //{
+                    //    var tester = new RFCTester(rfc);
+                    //    var wave = RFCTester.GetTestWave1();
+                    //    var result = tester.Calc(wave);
 
-                        var saveDir = new DirectoryInfo(@$"{basePath}\output");
-                        result.OutputToCsv(saveDir);
-                    }
+                    //    var saveDir = new DirectoryInfo(@$"{basePath}\output");
+                    //    result.OutputToCsv(saveDir);
+                    //}
                 }
 
                 // combined
                 {
-                    //var rfc = new ElasticModel(2);
-                    //var rfc = new PerfectElastoPlasticModel(2, 8);
-                    //var rfc = new BilinearModel(2, 0.1, 8);
-                    //var rfc = new DegradingBilinearModel(2, 0.1, 8, 0.4);
-                    //var rfc = new CloughModel(2, 0.1, 8);
-                    var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
+                    var rfcList = new List<RestoringForceCharacteristics>
+                    {
+                        new BilinearModel(2, 0.1, 8),
+                        new CloughModel(2, 0.1, 8),
+                        new DegradingCloughModel(2, 0.1, 8, 0.4),
+                    };
 
-                    var model = SDoFModel.FromT(1, 0.03, rfc);
+                    var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
+                    {
+                        new NewmarkBetaModel(0.25),
+                        new NigamJenningsModel(),
+                    };
 
                     var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                     var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    //var waveAnalysisModel = new NewmarkBetaModel(0.25);
-                    var waveAnalysisModel = new NigamJenningsModel();
-
-                    var result = model.Calc(wave, waveAnalysisModel);
-
-                    result.OutputToCsv();
+                    foreach (var rfc in rfcList)
+                    {
+                        foreach (var waveAnalysisModel in waveAnalysisModelList)
+                        {
+                            var model = SDoFModel.FromT(1, 0.03, rfc);
+                            var result = model.Calc(wave, waveAnalysisModel);
+                            result.OutputToCsv();
+                        }
+                    }
                 }
-
 
                 // spectrum analysis
                 {
