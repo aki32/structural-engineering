@@ -108,6 +108,8 @@ public class DegradingCloughModel : RestoringForceCharacteristics
         }
         else
         {
+            DegradeStartX = 0;
+            DegradeStartF = 0;
             IsInDegradingState = false;
         }
 
