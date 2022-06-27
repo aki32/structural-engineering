@@ -6,11 +6,11 @@ public class RFCTester
 
     // ★★★★★★★★★★★★★★★ props
 
-    public RestoringForceCharacteristics rfc { get; set; }
+    public RestoringForceCharacteristic rfc { get; set; }
 
     // ★★★★★★★★★★★★★★★ inits
     
-    public RFCTester(RestoringForceCharacteristics rfc)
+    public RFCTester(RestoringForceCharacteristic rfc)
     {
         this.rfc = rfc;
     }

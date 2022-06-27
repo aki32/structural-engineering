@@ -9,7 +9,7 @@ public class SDoFModel
 
     // ★★★★★★★★★★★★★★★ props
 
-    public RestoringForceCharacteristics.RestoringForceCharacteristics RFC { get; set; }
+    public RestoringForceCharacteristic RFC { get; set; }
 
     public double h { get; set; }
     public double m { get; set; }
@@ -22,7 +22,7 @@ public class SDoFModel
 
     // ★★★★★★★★★★★★★★★ inits
 
-    private SDoFModel(double m, double h, RestoringForceCharacteristics.RestoringForceCharacteristics rFC)
+    private SDoFModel(double m, double h, RestoringForceCharacteristic rFC)
     {
         RFC = rFC;
 
@@ -32,13 +32,13 @@ public class SDoFModel
         wo = w;
         To = T;
     }
-    public static SDoFModel FromM(double m, double h = 0, RestoringForceCharacteristics.RestoringForceCharacteristics? rfc = null)
+    public static SDoFModel FromM(double m, double h = 0, RestoringForceCharacteristic? rfc = null)
     {
         if (rfc == null)
             rfc = new ElasticModel(1);
         return new SDoFModel(m, h, rfc);
     }
-    public static SDoFModel FromT(double T, double h = 0, RestoringForceCharacteristics.RestoringForceCharacteristics? rfc = null)
+    public static SDoFModel FromT(double T, double h = 0, RestoringForceCharacteristic? rfc = null)
     {
         if (rfc == null)
             rfc = new ElasticModel(1);
@@ -67,7 +67,7 @@ public class SDoFModel
     /// <returns>
     /// List<TimeHistory> {Sd, Sv, Sa};
     /// </returns>
-    public static List<TimeHistory> CalcResponseSpectrum(double[] TList, double[] hList, TimeHistory wave, ITimeHistoryAnalysisModel thaModel, RestoringForceCharacteristics.RestoringForceCharacteristics rfc = null)
+    public static List<TimeHistory> CalcResponseSpectrum(double[] TList, double[] hList, TimeHistory wave, ITimeHistoryAnalysisModel thaModel, RestoringForceCharacteristics.RestoringForceCharacteristic rfc = null)
     {
         if (rfc == null)
             rfc = new ElasticModel(1);

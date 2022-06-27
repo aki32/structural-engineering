@@ -1,6 +1,6 @@
 ﻿
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class CloughModel : RestoringForceCharacteristics
+public class CloughModel : RestoringForceCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props

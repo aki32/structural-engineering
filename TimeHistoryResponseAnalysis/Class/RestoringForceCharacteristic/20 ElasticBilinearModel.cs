@@ -1,24 +1,22 @@
 ﻿
-
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class BilinearModel : RestoringForceCharacteristics
+public class ElasticBilinearModel : RestoringForceCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double beta { get; set; }
     public double Fy { get; set; }
 
-    public double K2 => K1 * beta;
+    public double K2 { get; set; }
 
     private double Xy = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 
-    public BilinearModel(double K1, double beta, double Fy)
+    public ElasticBilinearModel(double K1, double beta, double Fy)
     {
         this.K1 = K1;
-        this.beta = beta;
+        this.K2 = K1 * beta;
         this.Fy = Fy;
 
         Xy = Fy / K1;
@@ -38,13 +36,12 @@ public class BilinearModel : RestoringForceCharacteristics
         #region fを求める
 
         // 設計イラストの通り
-        var dX = CurrentX - LastX;
-        var f1 = K1 * dX + LastF;
-        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
+        var f1 = K1 * CurrentX;
+        var f2 = K2 * (CurrentX - Xy) + ((CurrentX > 0) ? Fy : -Fy);
 
-        // 最小値／最大値
-        var fs = new List<double> { f1, fy };
-        if (CurrentX > LastX)
+        // max, min
+        var fs = new List<double> { f1, f2 };
+        if (CurrentX > 0)
             CurrentF = fs.Min();
         else
             CurrentF = fs.Max();

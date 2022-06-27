@@ -1,6 +1,6 @@
 ﻿
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class DegradingCloughModel : RestoringForceCharacteristics
+public class DegradingCloughModel : RestoringForceCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props

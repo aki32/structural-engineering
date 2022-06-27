@@ -1,7 +1,7 @@
 ﻿
 
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public class ElasticModel : RestoringForceCharacteristics
+public class ElasticModel : RestoringForceCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ inits

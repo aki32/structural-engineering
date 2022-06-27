@@ -2,7 +2,7 @@
 
 
 namespace TimeHistoryResponseAnalysis.Class.RestoringForceCharacteristics;
-public abstract class RestoringForceCharacteristics
+public abstract class RestoringForceCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props
