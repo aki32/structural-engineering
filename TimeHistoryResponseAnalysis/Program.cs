@@ -31,7 +31,7 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NewmarkBetaModel(0.25);
                     //var result = model.Calc(wave, waveAnalysisModel);
 
-                    //result.OutputToCsv();
+                    //result.SaveToCsv();
                 }
 
                 // nigam jennings
@@ -44,7 +44,7 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NigamJenningsModel();
                     //var result = model.Calc(wave, waveAnalysisModel);
 
-                    //result.OutputToCsv();
+                    //result.SaveToCsv();
                 }
 
                 // rfc test
@@ -66,37 +66,37 @@ namespace TimeHistoryResponseAnalysis
                     //    var result = tester.Calc(wave);
 
                     //    var saveDir = new DirectoryInfo(@$"{basePath}\output");
-                    //    result.OutputToCsv(saveDir);
+                    //    result.SaveToCsv(saveDir);
                     //}
                 }
 
                 // combined
                 {
-                    var rfcList = new List<RestoringForceCharacteristic>
-                    {
-                        new BilinearModel(2, 0.1, 8),
-                        new CloughModel(2, 0.1, 8),
-                        new DegradingCloughModel(2, 0.1, 8, 0.4),
-                    };
+                    //var rfcList = new List<RestoringForceCharacteristic>
+                    //{
+                    //    new BilinearModel(2, 0.1, 8),
+                    //    new CloughModel(2, 0.1, 8),
+                    //    new DegradingCloughModel(2, 0.1, 8, 0.4),
+                    //};
 
-                    var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
-                    {
-                        new NewmarkBetaModel(0.25),
-                        new NigamJenningsModel(),
-                    };
+                    //var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
+                    //{
+                    //    new NewmarkBetaModel(0.25),
+                    //    new NigamJenningsModel(),
+                    //};
 
-                    var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
-                    var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
+                    //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                    //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                    foreach (var rfc in rfcList)
-                    {
-                        foreach (var waveAnalysisModel in waveAnalysisModelList)
-                        {
-                            var model = SDoFModel.FromT(1, 0.03, rfc);
-                            var result = model.Calc(wave, waveAnalysisModel);
-                            result.OutputToCsv();
-                        }
-                    }
+                    //foreach (var rfc in rfcList)
+                    //{
+                    //    foreach (var waveAnalysisModel in waveAnalysisModelList)
+                    //    {
+                    //        var model = SDoFModel.FromT(1, 0.03, rfc);
+                    //        var result = model.Calc(wave, waveAnalysisModel);
+                    //        result.SaveToCsv();
+                    //    }
+                    //}
                 }
 
                 // spectrum analysis
@@ -114,7 +114,7 @@ namespace TimeHistoryResponseAnalysis
                     //var waveAnalysisModel = new NigamJenningsModel();
 
                     //var resultSet = SDoFModel.CalcResponseSpectrum(TList, hList, wave, waveAnalysisModel, rfc);
-                    //resultSet.OutputToCsv(waveCsv.Directory);
+                    //resultSet.SaveToExcel(waveCsv.Directory);
                 }
 
             }
