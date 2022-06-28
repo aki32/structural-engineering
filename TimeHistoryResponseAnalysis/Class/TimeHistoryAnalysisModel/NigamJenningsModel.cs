@@ -23,8 +23,8 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
     /// <param name="T">Natural period of the structure</param>
     public TimeHistory Calc(SDoFModel model, TimeHistory wave)
     {
-        var resultHistory = (TimeHistory)wave.Clone();
-        resultHistory.resultFileName = $"{wave.Name} - {model.RFC.GetType().Name} - {GetType().Name}";
+        var resultHistory = wave.Clone();
+        resultHistory.Name = $"result_{wave.Name}_{model.RFC.GetType().Name}_{GetType().Name}";
 
         var rfcModel = model.RFC;
         var h = model.h;

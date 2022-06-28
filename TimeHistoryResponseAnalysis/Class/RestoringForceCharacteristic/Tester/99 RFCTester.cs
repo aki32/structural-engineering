@@ -9,7 +9,7 @@ public class RFCTester
     public RestoringForceCharacteristic rfc { get; set; }
 
     // ★★★★★★★★★★★★★★★ inits
-    
+
     public RFCTester(RestoringForceCharacteristic rfc)
     {
         this.rfc = rfc;
@@ -17,8 +17,8 @@ public class RFCTester
 
     internal TimeHistory Calc(TimeHistory wave)
     {
-        var resultHistory = (TimeHistory)wave.Clone();
-        resultHistory.resultFileName = $"{wave.Name} - {rfc.GetType().Name} - {GetType().Name}";
+        var resultHistory = wave.Clone();
+        resultHistory.Name = $"result_{wave.Name}_{rfc.GetType().Name}_{GetType().Name}";
 
         for (int i = 0; i < wave.x.Length; i++)
             resultHistory.f[i] = rfc.CalcNextF(wave.x[i]);

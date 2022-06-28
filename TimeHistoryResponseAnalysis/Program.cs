@@ -49,7 +49,7 @@ namespace TimeHistoryResponseAnalysis
 
                 // rfc test
                 {
-                    //var rfcList = new List<RestoringForceCharacteristics>
+                    //var rfcList = new List<RestoringForceCharacteristic>
                     //{
                     //    new BilinearModel(2, 0.1, 80),
                     //    new CloughModel(2, 0.1, 80),
