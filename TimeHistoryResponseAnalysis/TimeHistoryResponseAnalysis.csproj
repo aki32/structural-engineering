@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="# TestModel\output\" />
-    <Folder Include="Class\IndividualModel\" />
   </ItemGroup>
 
   <ItemGroup>
