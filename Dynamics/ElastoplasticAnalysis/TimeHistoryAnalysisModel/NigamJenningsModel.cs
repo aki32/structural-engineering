@@ -1,7 +1,7 @@
 ﻿using Aki32_Utilities.OwesomeModels;
-using Dynamics.Class.ElastoplasticAnalysis;
+using Dynamics.ElastoplasticAnalysis;
 
-namespace Dynamics.Class.ElastoplasticAnalysis;
+namespace Dynamics.ElastoplasticAnalysis;
 public class NigamJenningsModel : ITimeHistoryAnalysisModel
 {
 

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Dynamics.Class.RainflowCycleCounting;
+namespace Dynamics.RainflowCycleCounting;
 public class RainBranch
 {
     public double SourceMu { get; set; }

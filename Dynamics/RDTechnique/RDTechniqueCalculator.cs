@@ -1,8 +1,6 @@
-﻿
+﻿using Aki32_Utilities.OwesomeModels;
 
-using Aki32_Utilities.OwesomeModels;
-
-namespace Dynamics.Class.RDTechnique;
+namespace Dynamics.RDTechnique;
 public class RDTechniqueCalculator
 {
 

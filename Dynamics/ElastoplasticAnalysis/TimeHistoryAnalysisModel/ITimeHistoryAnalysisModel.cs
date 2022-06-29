@@ -1,8 +1,6 @@
-﻿using Dynamics.Class.ElastoplasticAnalysis;
-using Dynamics.Class.ElastoplasticAnalysis;
-using Aki32_Utilities.OwesomeModels;
+﻿using Aki32_Utilities.OwesomeModels;
 
-namespace Dynamics.Class.ElastoplasticAnalysis;
+namespace Dynamics.ElastoplasticAnalysis;
 public interface ITimeHistoryAnalysisModel
 {
     

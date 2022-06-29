@@ -1,7 +1,7 @@
 ﻿using Aki32_Utilities.OwesomeModels;
-using Dynamics.Class.ElastoplasticAnalysis;
-using Dynamics.Class.RainflowCycleCounting;
-using Dynamics.Class.RDTechnique;
+using Dynamics.ElastoplasticAnalysis;
+using Dynamics.RainflowCycleCounting;
+using Dynamics.RDTechnique;
 
 namespace Dynamics
 {

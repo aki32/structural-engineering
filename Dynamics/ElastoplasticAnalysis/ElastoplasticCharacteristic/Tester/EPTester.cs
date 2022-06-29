@@ -1,6 +1,6 @@
 ﻿using Aki32_Utilities.OwesomeModels;
 
-namespace Dynamics.Class.ElastoplasticAnalysis;
+namespace Dynamics.ElastoplasticAnalysis;
 public class EPTester
 {
 

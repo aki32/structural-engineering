@@ -1,5 +1,6 @@
 ﻿
-namespace Dynamics.Class.ElastoplasticAnalysis;
+
+namespace Dynamics.ElastoplasticAnalysis;
 public class CloughModel : ElastoplasticCharacteristic
 {
 

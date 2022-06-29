@@ -1,6 +1,6 @@
 ﻿using Aki32_Utilities.OwesomeModels;
 
-namespace Dynamics.Class.RainflowCycleCounting;
+namespace Dynamics.RainflowCycleCounting;
 public class RainflowCalculator
 {
 

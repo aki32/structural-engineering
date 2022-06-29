@@ -1,8 +1,8 @@
-﻿using Dynamics.Class.ElastoplasticAnalysis;
+﻿using Dynamics.ElastoplasticAnalysis;
 using Aki32_Utilities.OwesomeModels;
 using Aki32_Utilities.Extensions;
 
-namespace Dynamics.Class.ElastoplasticAnalysis;
+namespace Dynamics.ElastoplasticAnalysis;
 public class SDoFModel
 {
 

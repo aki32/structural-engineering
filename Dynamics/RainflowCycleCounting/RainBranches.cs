@@ -1,6 +1,6 @@
 ﻿
 
-namespace Dynamics.Class.RainflowCycleCounting;
+namespace Dynamics.RainflowCycleCounting;
 public class RainBranches
 {
     public List<RainBranch> RainBranchList { get; init; }
