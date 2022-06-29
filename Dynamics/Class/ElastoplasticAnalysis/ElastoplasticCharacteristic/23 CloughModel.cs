@@ -1,15 +1,13 @@
 ﻿
 namespace Dynamics.Class.ElastoplasticAnalysis;
-public class DegradingCloughModel : RestoringForceCharacteristic
+public class CloughModel : ElastoplasticCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props
 
     public double Fy { get; set; }
-    public double alpha { get; set; }
 
     public double K2 { get; set; }
-    public double Kr => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha);
 
     private double Xy = 0d;
     private double MaxF = 0d;
@@ -17,24 +15,19 @@ public class DegradingCloughModel : RestoringForceCharacteristic
     private double MinF = 0d;
     private double MinX = 0d;
 
-    private bool IsInDegradingState = false;
-    private double DegradeStartX = 0;
-    private double DegradeStartF = 0;
-
     // ★★★★★★★★★★★★★★★ inits
 
-    public DegradingCloughModel(double K1, double beta, double Fy, double alpha)
+    public CloughModel(double K1, double beta, double Fy)
     {
         this.K1 = K1;
         this.K2 = K1 * beta;
         this.Fy = Fy;
-        this.alpha = alpha;
 
         Xy = Fy / K1;
         MaxF = Fy;
-        MaxX = Fy / K1;
+        MaxX = MaxF / K1;
         MinF = -Fy;
-        MinX = -Fy / K1;
+        MinX = MinF / K1;
     }
 
     // ★★★★★★★★★★★★★★★ methods
@@ -52,37 +45,24 @@ public class DegradingCloughModel : RestoringForceCharacteristic
 
         // 設計イラストの通り
         var dX = CurrentX - LastX;
-        var f1r = Kr * dX + LastF;
+        var f1r = K1 * dX + LastF;
         var f2 = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
-        double fc; // fcrなどと兼用
+        double fc; // fc0と兼用
 
         // 向かってる先でX軸をまたがない／またぐ
         if ((CurrentX > LastX && LastF > 0) || (CurrentX < LastX && LastF < 0))
         {
-            // もし DegradingState に居るのにX軸をまたがないなら，fcをセットバックさせる。
-            if (IsInDegradingState)
-            {
-                // fcr
-                if (CurrentX > LastX)
-                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MaxX, MaxF, CurrentX);
-                else
-                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MinX, MinF, CurrentX);
-            }
+            // fc
+            if (CurrentX > LastX)
+                fc = CalcF_FromPoints(LastX, LastF, MaxX, MaxF, CurrentX);
             else
-            {
-                // fc
-                if (CurrentX > LastX)
-                    fc = CalcF_FromPoints(LastX, LastF, MaxX, MaxF, CurrentX);
-                else
-                    fc = CalcF_FromPoints(LastX, LastF, MinX, MinF, CurrentX);
-            }
+                fc = CalcF_FromPoints(LastX, LastF, MinX, MinF, CurrentX);
         }
         else
         {
-            // DegradingState に居るかどうかで，傾きが変わる。
-            double HitX = LastX + (-LastF / (IsInDegradingState ? Kr : K1));
+            // fc0
+            var HitX = LastX + (-LastF / K1);
 
-            // fc0, fcr0
             if (CurrentX > LastX)
                 fc = CalcF_FromPoints(HitX, 0, MaxX, MaxF, CurrentX);
             else
@@ -96,25 +76,7 @@ public class DegradingCloughModel : RestoringForceCharacteristic
         else
             CurrentF = fs.Max();
 
-        // もし fr を採用した場合は，DegradingState に居ることになる。そうでなければ DegradingState 外
-        if (f1r == CurrentF)
-        {
-            if (IsInDegradingState == false)
-            {
-                DegradeStartX = CurrentX;
-                DegradeStartF = CurrentF;
-                IsInDegradingState = true;
-            }
-        }
-        else
-        {
-            DegradeStartX = 0;
-            DegradeStartF = 0;
-            IsInDegradingState = false;
-        }
-
         #endregion
-
 
         #region 最大最小を更新
 

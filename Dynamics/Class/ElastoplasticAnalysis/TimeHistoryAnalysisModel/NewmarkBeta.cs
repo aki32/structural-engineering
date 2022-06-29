@@ -27,9 +27,9 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
     public TimeHistory Calc(SDoFModel model, TimeHistory wave)
     {
         var resultHistory = wave.Clone();
-        resultHistory.Name = $"result_{wave.Name}_{model.RFC.GetType().Name}_{GetType().Name}";
+        resultHistory.Name = $"result_{wave.Name}_{model.EP.GetType().Name}_{GetType().Name}";
 
-        var rfcModel = model.RFC;
+        var epModel = model.EP;
         var h = model.h;
         var m = model.m;
         var dt = wave.TimeStep;
@@ -39,7 +39,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
             var p = resultHistory.GetStep(i - 1);
             var c = resultHistory.GetStep(i);
 
-            var F = rfcModel.CurrentF;
+            var F = epModel.CurrentF;
             var w = model.w;
             var w2 = w * w;
 
@@ -52,7 +52,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
             c.xt = p.xt + 0.5 * (p.xtt + c.xtt) * dt;
             c.x = p.x + p.xt * dt + ((0.5 - beta) * p.xtt + beta * c.xtt) * dt * dt;
             c.xtt_ytt = c.xtt + c.ytt;
-            c.f = rfcModel.CalcNextF(c.x);
+            c.f = epModel.CalcNextF(c.x);
 
             resultHistory.SetStep(i, c);
         }

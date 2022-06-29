@@ -24,9 +24,9 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
     public TimeHistory Calc(SDoFModel model, TimeHistory wave)
     {
         var resultHistory = wave.Clone();
-        resultHistory.Name = $"result_{wave.Name}_{model.RFC.GetType().Name}_{GetType().Name}";
+        resultHistory.Name = $"result_{wave.Name}_{model.EP.GetType().Name}_{GetType().Name}";
 
-        var rfcModel = model.RFC;
+        var epModel = model.EP;
         var h = model.h;
         var m = model.m;
         var TimeStep = wave.TimeStep;
@@ -114,7 +114,7 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
 
             c.x = a11 * p.x + a12 * p.xt + b11 * p.ytt + b12 * p.ytt;
             c.xt = a21 * p.x + a22 * p.xt + b21 * p.ytt + b22 * p.ytt;
-            var F = rfcModel.CalcNextF(c.x);
+            var F = epModel.CalcNextF(c.x);
             c.xtt = p.ytt - 2 * h * w * c.xt - F / m;  // wo2*x → F/m
             c.xtt_ytt = c.xtt + c.ytt;
             c.f = F;

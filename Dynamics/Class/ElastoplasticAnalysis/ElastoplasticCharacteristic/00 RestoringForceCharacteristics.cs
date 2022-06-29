@@ -2,7 +2,7 @@
 
 
 namespace Dynamics.Class.ElastoplasticAnalysis;
-public abstract class RestoringForceCharacteristic
+public abstract class ElastoplasticCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props

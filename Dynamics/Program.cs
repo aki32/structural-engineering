@@ -49,9 +49,9 @@ namespace Dynamics
                         //result.SaveToCsv();
                     }
 
-                    // rfc test
+                    // ep test
                     {
-                        //var rfcList = new List<RestoringForceCharacteristic>
+                        //var epList = new List<ElastoplasticCharacteristic>
                         //{
                         //    new BilinearModel(2, 0.1, 80),
                         //    new CloughModel(2, 0.1, 80),
@@ -61,10 +61,10 @@ namespace Dynamics
                         //    new ElasticTetralinearModel(2, 0.5, 80, 0.25, 90, 0.1, 110),
                         //};
 
-                        //foreach (var rfc in rfcList)
+                        //foreach (var ep in epList)
                         //{
-                        //    var tester = new RFCTester(rfc);
-                        //    var wave = RFCTester.GetTestWave1();
+                        //    var tester = new EPTester(ep);
+                        //    var wave = EPTester.GetTestWave1();
                         //    var result = tester.Calc(wave);
 
                         //    var saveDir = new DirectoryInfo(@$"{basePath}\output");
@@ -74,7 +74,7 @@ namespace Dynamics
 
                     // combined
                     {
-                        //var rfcList = new List<RestoringForceCharacteristic>
+                        //var epList = new List<ElastoplasticCharacteristic>
                         //{
                         //    new BilinearModel(2, 0.1, 8),
                         //    new CloughModel(2, 0.1, 8),
@@ -90,11 +90,11 @@ namespace Dynamics
                         //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
                         //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                        //foreach (var rfc in rfcList)
+                        //foreach (var ep in epList)
                         //{
                         //    foreach (var waveAnalysisModel in waveAnalysisModelList)
                         //    {
-                        //        var model = SDoFModel.FromT(1, 0.03, rfc);
+                        //        var model = SDoFModel.FromT(1, 0.03, ep);
                         //        var result = model.Calc(wave, waveAnalysisModel);
                         //        result.SaveToCsv();
                         //    }
@@ -103,8 +103,8 @@ namespace Dynamics
 
                     // spectrum analysis
                     {
-                        //var rfc = new ElasticModel(2);
-                        ////var rfc = new DegradingCloughModel(2, 0.1, 8, 0.4);
+                        //var ep = new ElasticModel(2);
+                        ////var ep = new DegradingCloughModel(2, 0.1, 8, 0.4);
 
                         //var TList = Enumerable.Range(100, 400).Select(x => x / 100d).ToArray();
                         //var hList = new double[] { 0.00, 0.03, 0.05, 0.10 };
@@ -115,7 +115,7 @@ namespace Dynamics
                         ////var waveAnalysisModel = new NewmarkBetaModel(0.25);
                         //var waveAnalysisModel = new NigamJenningsModel();
 
-                        //var resultSet = SDoFModel.CalcResponseSpectrum(TList, hList, wave, waveAnalysisModel, rfc);
+                        //var resultSet = SDoFModel.CalcResponseSpectrum(TList, hList, wave, waveAnalysisModel, ep);
                         //resultSet.SaveToExcel(waveCsv.Directory);
                     }
 
@@ -139,23 +139,23 @@ namespace Dynamics
 
                 // RDTechnique
                 {
-                    var basePath = @"..\..\..\# TestModel\RDTechnique";
+                    //var basePath = @"..\..\..\# TestModel\RDTechnique";
 
-                    // Define IO paths
-                    var inputCsvPath = Path.Combine(basePath, @"input.csv");
-                    var outputCsvPath = Path.Combine(basePath, @"result.csv");
+                    //// Define IO paths
+                    //var inputCsvPath = Path.Combine(basePath, @"input.csv");
+                    //var outputCsvPath = Path.Combine(basePath, @"result.csv");
                     
-                    // Read input csv
-                    var vHistory = VHistory.FromCsv(inputCsvPath);
+                    //// Read input csv
+                    //var vHistory = VHistory.FromCsv(inputCsvPath);
 
-                    // RD Technique
-                    var RDResult = vHistory.CalcRD(200);
-                    RDResult.OutputResultToCsv(outputCsvPath);
+                    //// RD Technique
+                    //var RDResult = vHistory.CalcRD(200);
+                    //RDResult.OutputResultToCsv(outputCsvPath);
 
-                    // Post process
-                    var att = RDResult.CalcAttenuationConstant(4, true);
-                    Console.WriteLine();
-                    Console.WriteLine($"result h = {att}");
+                    //// Post process
+                    //var att = RDResult.CalcAttenuationConstant(4, true);
+                    //Console.WriteLine();
+                    //Console.WriteLine($"result h = {att}");
                 }
 
             }

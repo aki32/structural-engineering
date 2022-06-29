@@ -1,6 +1,6 @@
 ﻿
 namespace Dynamics.Class.ElastoplasticAnalysis;
-public class ElasticBilinearModel : RestoringForceCharacteristic
+public class ElasticBilinearModel : ElastoplasticCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ props

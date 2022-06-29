@@ -1,27 +1,27 @@
 ﻿using Aki32_Utilities.OwesomeModels;
 
 namespace Dynamics.Class.ElastoplasticAnalysis;
-public class RFCTester
+public class EPTester
 {
 
     // ★★★★★★★★★★★★★★★ props
 
-    public RestoringForceCharacteristic rfc { get; set; }
+    public ElastoplasticCharacteristic ep { get; set; }
 
     // ★★★★★★★★★★★★★★★ inits
 
-    public RFCTester(RestoringForceCharacteristic rfc)
+    public EPTester(ElastoplasticCharacteristic ep)
     {
-        this.rfc = rfc;
+        this.ep = this.ep;
     }
 
     internal TimeHistory Calc(TimeHistory wave)
     {
         var resultHistory = wave.Clone();
-        resultHistory.Name = $"result_{wave.Name}_{rfc.GetType().Name}_{GetType().Name}";
+        resultHistory.Name = $"result_{wave.Name}_{ep.GetType().Name}_{GetType().Name}";
 
         for (int i = 0; i < wave.x.Length; i++)
-            resultHistory.f[i] = rfc.CalcNextF(wave.x[i]);
+            resultHistory.f[i] = ep.CalcNextF(wave.x[i]);
         return resultHistory;
     }
 

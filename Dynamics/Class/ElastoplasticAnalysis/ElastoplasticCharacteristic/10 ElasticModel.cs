@@ -1,7 +1,7 @@
 ﻿
 
 namespace Dynamics.Class.ElastoplasticAnalysis;
-public class ElasticModel : RestoringForceCharacteristic
+public class ElasticModel : ElastoplasticCharacteristic
 {
 
     // ★★★★★★★★★★★★★★★ inits

@@ -1,5 +1,4 @@
 ﻿using Dynamics.Class.ElastoplasticAnalysis;
-using Dynamics.Class.ElastoplasticAnalysis;
 using Aki32_Utilities.OwesomeModels;
 using Aki32_Utilities.Extensions;
 
@@ -9,12 +8,12 @@ public class SDoFModel
 
     // ★★★★★★★★★★★★★★★ props
 
-    public RestoringForceCharacteristic RFC { get; set; }
+    public ElastoplasticCharacteristic EP { get; set; }
 
     public double h { get; set; }
     public double m { get; set; }
 
-    public double w => Math.Sqrt(RFC.CurrentK / m);
+    public double w => Math.Sqrt(EP.CurrentK / m);
     public double T => 2 * Math.PI / w;
 
     public double wo;
@@ -22,9 +21,9 @@ public class SDoFModel
 
     // ★★★★★★★★★★★★★★★ inits
 
-    private SDoFModel(double m, double h, RestoringForceCharacteristic rFC)
+    private SDoFModel(double m, double h, ElastoplasticCharacteristic ep)
     {
-        RFC = rFC;
+        EP = ep;
 
         this.h = h;
         this.m = m;
@@ -32,19 +31,19 @@ public class SDoFModel
         wo = w;
         To = T;
     }
-    public static SDoFModel FromM(double m, double h = 0, RestoringForceCharacteristic? rfc = null)
+    public static SDoFModel FromM(double m, double h = 0, ElastoplasticCharacteristic? ep = null)
     {
-        if (rfc == null)
-            rfc = new ElasticModel(1);
-        return new SDoFModel(m, h, rfc);
+        if (ep == null)
+            ep = new ElasticModel(1);
+        return new SDoFModel(m, h, ep);
     }
-    public static SDoFModel FromT(double T, double h = 0, RestoringForceCharacteristic? rfc = null)
+    public static SDoFModel FromT(double T, double h = 0, ElastoplasticCharacteristic? ep = null)
     {
-        if (rfc == null)
-            rfc = new ElasticModel(1);
+        if (ep == null)
+            ep = new ElasticModel(1);
         var initialwo = 2 * Math.PI / T;
-        var m = rfc.K1 / (initialwo * initialwo);
-        return new SDoFModel(m, h, rfc);
+        var m = ep.K1 / (initialwo * initialwo);
+        return new SDoFModel(m, h, ep);
     }
 
     // ★★★★★★★★★★★★★★★ dynamic methods
@@ -63,14 +62,14 @@ public class SDoFModel
     /// <param name="hList"></param>
     /// <param name="wave"></param>
     /// <param name="thaModel"></param>
-    /// <param name="rfc"></param>
+    /// <param name="ep"></param>
     /// <returns>
     /// List<TimeHistory> {Sd, Sv, Sa};
     /// </returns>
-    public static List<TimeHistory> CalcResponseSpectrum(double[] TList, double[] hList, TimeHistory wave, ITimeHistoryAnalysisModel thaModel, ElastoplasticAnalysis.RestoringForceCharacteristic rfc = null)
+    public static List<TimeHistory> CalcResponseSpectrum(double[] TList, double[] hList, TimeHistory wave, ITimeHistoryAnalysisModel thaModel, ElastoplasticCharacteristic ep = null)
     {
-        if (rfc == null)
-            rfc = new ElasticModel(1);
+        if (ep == null)
+            ep = new ElasticModel(1);
 
         Console.WriteLine("============================================");
         Console.WriteLine("calculating…");
@@ -94,7 +93,7 @@ public class SDoFModel
 
             foreach (var h in hList)
             {
-                var targetStructure = SDoFModel.FromT(T, h, rfc);
+                var targetStructure = SDoFModel.FromT(T, h, ep);
                 var resultSpectrum = targetStructure.Calc(wave, thaModel).GetSpectrumSet();
                 Sd[$"h={h:F4}"] = resultSpectrum.Sd;
                 Sv[$"h={h:F4}"] = resultSpectrum.Sv;
