@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using CreateAccFromCsv.Class;
 
 namespace CreateAccFromCsv
 {
@@ -12,7 +6,6 @@ namespace CreateAccFromCsv
     {
         /// <summary>
         /// B2 以降に加速度データの入った CSV を，ACCに変換。
-        /// .exe に .csv をドロップすることで起動。
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
@@ -22,39 +15,54 @@ namespace CreateAccFromCsv
             Console.WriteLine();
 
 
-
-            // Define IO paths and target wave names
-            string baseDirPath = "", inputFilePath = "", outputFilePath = "";
-
             // パスで指定
-            if (true)
             {
-                baseDirPath = @"..\..\..\# TestModel";
-                inputFilePath = $@"{baseDirPath}\kobe L1.csv";
-                outputFilePath = inputFilePath.Replace(".csv", ".acc");
-                HandleOne(inputFilePath, outputFilePath);
+                //var inputFile = new FileInfo($@"..\..\..\# TestModel\kobe L1.csv");
+                //inputFile.CreateAccFromCsv();
             }
 
             // .exe にドラッグで開始。
-            if (true)
             {
-                string[] files = Environment.GetCommandLineArgs();
+                //string[] files = Environment.GetCommandLineArgs();
 
-                if (files.Length > 1)
+                //if (files.Length > 1)
+                //{
+                //    for (int i = 1; i < files.Length; i++)
+                //    {
+                //        var inputFilePath = files[i];
+                //        var inputFile = new FileInfo(inputFilePath);
+                //        inputFile.CreateAccFromCsv();
+                //    }
+                //}
+                //else
+                //{
+                //    //配列の要素数が1の時、コマンドライン引数は存在しない
+                //    Console.WriteLine();
+                //    Console.WriteLine("2行目からA列に時間・B列に加速度を配置した.csvファイルを.exeファイル上にドラッグ＆ドロップすることで，変換を実行できます。");
+                //    Console.WriteLine("今回ドロップされたファイルはありませんでした。");
+                //}
+            }
+
+            // 対話形式
+            {
+                Console.WriteLine("2行目からA列に時間・B列に加速度を配置した.csvファイルのパスを入力することで処理を実行できます。");
+
+                while (true)
                 {
-                    for (int i = 1; i < files.Length; i++)
+                    Console.WriteLine("================================================");
+                    Console.WriteLine("処理したいデータのパスを入力：");
+
+                    var input = Console.ReadLine();
+                    input = input.Trim('\"');
+                    try
                     {
-                        inputFilePath = files[i];
-                        outputFilePath = inputFilePath.Replace(".csv", ".acc");
-                        HandleOne(inputFilePath, outputFilePath);
+                        var inputFile = new FileInfo(input);
+                        inputFile.CreateAccFromCsv();
                     }
-                }
-                else
-                {
-                    //配列の要素数が1の時、コマンドライン引数は存在しない
-                    Console.WriteLine();
-                    Console.WriteLine("2行目からA列に時間・B列に加速度を配置した.csvファイルを.exeファイル上にドラッグ＆ドロップすることで，変換を実行できます。");
-                    Console.WriteLine("今回ドロップされたファイルはありませんでした。");
+                    catch (Exception)
+                    {
+                        Console.WriteLine("失敗：入力が正しいか確認してください。");
+                    }
                 }
             }
 
