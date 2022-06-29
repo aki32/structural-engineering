@@ -1,6 +1,7 @@
 ﻿using Aki32_Utilities.OwesomeModels;
 using Dynamics.Class.ElastoplasticAnalysis;
 using Dynamics.Class.RainflowCycleCounting;
+using Dynamics.Class.RDTechnique;
 
 namespace Dynamics
 {
@@ -122,20 +123,41 @@ namespace Dynamics
 
                 // RainflowCycleCounting
                 {
-                    var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
+                    //var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
 
-                    // Basic
-                    {
-                        // Define IO paths
-                        var baseDirPath = @"..\..\..\# TestModel";
-                        var inputCsvPath = Path.Combine(baseDirPath, @"input1.csv");
-                        var outputCsvPath = Path.Combine(baseDirPath, @"result1.csv");
+                    //// Basic
+                    //{
+                    //    // Define IO paths
+                    //    var inputCsvPath = Path.Combine(basePath, @"input1.csv");
+                    //    var outputCsvPath = Path.Combine(basePath, @"result1.csv");
 
-                        var muHistory = MuHistory.FromCsv(inputCsvPath);
-                        muHistory.CalcRainflow(5, 1 / 3d, false);
-                        muHistory.OutputDamageHistoryToCsv(outputCsvPath);
-                    }
+                    //    var muHistory = MuHistory.FromCsv(inputCsvPath);
+                    //    muHistory.CalcRainflow(5, 1 / 3d, false);
+                    //    muHistory.OutputDamageHistoryToCsv(outputCsvPath);
+                    //}
                 }
+
+                // RDTechnique
+                {
+                    var basePath = @"..\..\..\# TestModel\RDTechnique";
+
+                    // Define IO paths
+                    var inputCsvPath = Path.Combine(basePath, @"input.csv");
+                    var outputCsvPath = Path.Combine(basePath, @"result.csv");
+                    
+                    // Read input csv
+                    var vHistory = VHistory.FromCsv(inputCsvPath);
+
+                    // RD Technique
+                    var RDResult = vHistory.CalcRD(200);
+                    RDResult.OutputResultToCsv(outputCsvPath);
+
+                    // Post process
+                    var att = RDResult.CalcAttenuationConstant(4, true);
+                    Console.WriteLine();
+                    Console.WriteLine($"result h = {att}");
+                }
+
             }
 
             Console.WriteLine();
