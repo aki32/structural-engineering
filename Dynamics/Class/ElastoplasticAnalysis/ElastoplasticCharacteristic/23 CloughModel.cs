@@ -107,12 +107,13 @@ public class CloughModel : ElastoplasticCharacteristic
     /// <returns></returns>
     private double CalcF_FromPoints(double X1, double F1, double X2, double Y2, double targetX)
     {
+        double maxK = K1;
         double Kc;
         if (X1 == X2)
-            Kc = K2;
+            Kc = maxK; // 最大にしておくことで，min で最終的に選ばれなくなる。
         else
             Kc = (Y2 - F1) / (X2 - X1);
-        Kc = Math.Min(K1, Kc); // for safety
+        Kc = Math.Min(maxK, Kc); // for safety
         return Kc * (targetX - X1) + F1;
     }
 
