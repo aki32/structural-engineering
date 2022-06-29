@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace CreateAccFromCsv
+namespace CreateAccFromCsv.Class
 {
-    public partial class Program
+    public static class Extensions
     {
-        static void HandleOne(string inputFilePath, string outputFilePath)
+        public static FileInfo CreateAccFromCsv(this FileInfo inputFile)
         {
+            var inputFilePath = inputFile.FullName;
             const int STEP = 8;
             try
             {
+                if (!inputFilePath.EndsWith(".csv"))
+                    throw new Exception("受け付けられるのはCSVファイルのみです。");
+                var outputFilePath = inputFilePath.Replace(".csv", ".acc");
+
+
                 var input = File.ReadLines(inputFilePath, Encoding.UTF8).ToArray();
 
                 var input2 = input // 全加速度データ
@@ -21,7 +23,7 @@ namespace CreateAccFromCsv
                     .Select(x => float.Parse(x))
                     .ToList();
 
-                var input3 = input //最初の2データの時間
+                var input3 = input // 最初の2データの時間
                     .Skip(1)
                     .Take(2)
                     .Select(x => x.Split(new string[] { "," }, StringSplitOptions.None)[0])
@@ -29,7 +31,7 @@ namespace CreateAccFromCsv
                     .ToArray();
 
                 var resultStr = new List<string>();
-                resultStr.Add($"{input2.Count},{input3[1] - input3[0]}");//データ個数，時間間隔推測
+                resultStr.Add($"{input2.Count},{input3[1] - input3[0]}"); // データ個数，時間間隔推測
 
                 var resultStrBuffer = "";
                 for (int i = 0; i < input2.Count; i++)
@@ -54,10 +56,13 @@ namespace CreateAccFromCsv
                 File.WriteAllLines(outputFilePath, resultStr.ToArray(), Encoding.ASCII);
 
                 Console.WriteLine($"O 成功 : {outputFilePath}");
+
+                return new FileInfo(outputFilePath);
             }
             catch (Exception e)
             {
-                Console.WriteLine($"X 失敗 : {outputFilePath} - {e.Message}");
+                Console.WriteLine($"X 失敗 : {inputFilePath} - {e.Message}");
+                return null;
             }
         }
     }
