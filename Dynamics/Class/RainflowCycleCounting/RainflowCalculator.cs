@@ -51,7 +51,8 @@ public class RainflowCalculator
             new RainBranches(false),
         };
 
-        // loop
+
+        // main
         for (int i = 0; i < resultHistory.DataRowCount; i++)
         {
             if (consoleOutput)
@@ -91,7 +92,7 @@ public class RainflowCalculator
     public FileInfo SaveRainBranchesToCsv(FileInfo? outputFile = null)
     {
         var result = inputHistory.Clone();
-        result.DropColumn(result.Columns);
+        result.DropAllColumns();
         result.Name += "_RainflowBranches";
 
         var branches = new List<RainBranch>();

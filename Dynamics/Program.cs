@@ -123,17 +123,14 @@ namespace Dynamics
 
                 // RainflowCycleCounting
                 {
-                    var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
+                    //var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
 
-                    // basic
-                    {
-                        //var inputCsv = new FileInfo(Path.Combine(basePath, @"input3.csv"));
+                    //var inputCsv = new FileInfo(Path.Combine(basePath, @"input3.csv"));
 
-                        //var rainflow = RainflowCalculator.FromCsv(inputCsv);
-                        //rainflow.CalcRainflow(5, 1 / 3d, false);
-                        //rainflow.SaveResultHistoryToCsv();
-                        //rainflow.SaveRainBranchesToCsv();
-                    }
+                    //var rainflow = RainflowCalculator.FromCsv(inputCsv);
+                    //rainflow.CalcRainflow(5, 1 / 3d, false);
+                    //rainflow.SaveResultHistoryToCsv();
+                    //rainflow.SaveRainBranchesToCsv();
                 }
 
                 // RDTechnique
@@ -141,18 +138,17 @@ namespace Dynamics
                     //var basePath = @"..\..\..\# TestModel\RDTechnique";
 
                     //// Define IO paths
-                    //var inputCsvPath = Path.Combine(basePath, @"input.csv");
-                    //var outputCsvPath = Path.Combine(basePath, @"result.csv");
+                    //var inputCsv = new FileInfo(Path.Combine(basePath, @"input.csv"));
 
                     //// Read input csv
-                    //var vHistory = VHistory.FromCsv(inputCsvPath);
+                    //var rd = RDTechniqueCalculator.FromCsv(inputCsv);
 
                     //// RD Technique
-                    //var RDResult = vHistory.CalcRD(200);
-                    //RDResult.OutputResultToCsv(outputCsvPath);
+                    //rd.CalcRD(200);
+                    //rd.SaveResultHistoryToCsv();
 
                     //// Post process
-                    //var att = RDResult.CalcAttenuationConstant(4, true);
+                    //var att = rd.CalcAttenuationConstant(4, true);
                     //Console.WriteLine();
                     //Console.WriteLine($"result h = {att}");
                 }
