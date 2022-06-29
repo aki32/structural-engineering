@@ -123,18 +123,17 @@ namespace Dynamics
 
                 // RainflowCycleCounting
                 {
-                    //var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
+                    var basePath = @"..\..\..\# TestModel\RainflowCycleCounting";
 
-                    //// Basic
-                    //{
-                    //    // Define IO paths
-                    //    var inputCsvPath = Path.Combine(basePath, @"input1.csv");
-                    //    var outputCsvPath = Path.Combine(basePath, @"result1.csv");
+                    // basic
+                    {
+                        //var inputCsv = new FileInfo(Path.Combine(basePath, @"input3.csv"));
 
-                    //    var muHistory = MuHistory.FromCsv(inputCsvPath);
-                    //    muHistory.CalcRainflow(5, 1 / 3d, false);
-                    //    muHistory.OutputDamageHistoryToCsv(outputCsvPath);
-                    //}
+                        //var rainflow = RainflowCalculator.FromCsv(inputCsv);
+                        //rainflow.CalcRainflow(5, 1 / 3d, false);
+                        //rainflow.SaveResultHistoryToCsv();
+                        //rainflow.SaveRainBranchesToCsv();
+                    }
                 }
 
                 // RDTechnique
@@ -144,7 +143,7 @@ namespace Dynamics
                     //// Define IO paths
                     //var inputCsvPath = Path.Combine(basePath, @"input.csv");
                     //var outputCsvPath = Path.Combine(basePath, @"result.csv");
-                    
+
                     //// Read input csv
                     //var vHistory = VHistory.FromCsv(inputCsvPath);
 

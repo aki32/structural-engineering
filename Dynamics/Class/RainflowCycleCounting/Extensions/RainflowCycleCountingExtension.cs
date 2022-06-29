@@ -12,7 +12,7 @@ namespace Dynamics.Class.RainflowCycleCounting
         /// <param name="inputFile"></param>
         /// <param name="outputFile">when null, automatically set to {inputFile.DirectoryName}/output_Rainflow/{inputFile.Name}</param>
         /// <returns></returns>
-        public static FileInfo Rainflow(this FileInfo inputFile, FileInfo? outputFile, double C, double beta)
+        public static FileInfo Rainflow(this FileInfo inputFile, FileInfo? outputFile, double C, double beta, bool consoleOutput = false)
         {
             // preprocess
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // to handle Shift-JIS
@@ -22,13 +22,13 @@ namespace Dynamics.Class.RainflowCycleCounting
             if (outputFile.Exists) outputFile.Delete();
 
             // main
-            var muHistory = MuHistory.FromCsv(inputFile.FullName);
-            muHistory.CalcRainflow(C, beta, false);
-            muHistory.OutputDamageHistoryToCsv(outputFile.FullName);
+            var muHistory = RainflowCalculator.FromCsv(inputFile);
+            muHistory.CalcRainflow(C, beta, consoleOutput);
+            muHistory.resultHistory.SaveToCsv(outputFile);
 
             return outputFile;
         }
-      
+
         /// <summary>
         /// Rainflow
         /// </summary>
