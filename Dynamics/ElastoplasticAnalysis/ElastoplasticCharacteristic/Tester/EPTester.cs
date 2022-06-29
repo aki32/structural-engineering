@@ -12,7 +12,7 @@ public class EPTester
 
     public EPTester(ElastoplasticCharacteristic ep)
     {
-        this.ep = this.ep;
+        this.ep = ep;
     }
 
     internal TimeHistory Calc(TimeHistory wave)
