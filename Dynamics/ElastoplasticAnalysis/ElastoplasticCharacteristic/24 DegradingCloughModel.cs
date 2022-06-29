@@ -10,7 +10,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
     public double alpha { get; set; }
 
     public double K2 { get; set; }
-    public double Kr => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha); // DegradingStateにいない時は自動的に K1 となる。
+    public double K1r => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha); // DegradingStateにいない時は自動的に K1 となる。
 
     private double Xy = 0d;
     private double MaxF = 0d;
@@ -53,7 +53,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
         // 設計イラストの通り
         var dX = CurrentX - LastX;
-        var f1r = Kr * dX + LastF;
+        var f1r = K1r * dX + LastF;
         var f2 = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
         double fc; // fcrなどと兼用
 
@@ -80,7 +80,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
         }
         else
         {
-            double HitX = LastX + (-LastF / Kr);
+            double HitX = LastX + (-LastF / K1r);
 
             // fc0, fcr0
             if (CurrentX > LastX)
@@ -145,7 +145,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
     /// <returns></returns>
     private double CalcF_FromPoints(double X1, double F1, double X2, double Y2, double targetX)
     {
-        double maxK = Kr;
+        double maxK = K1r;
         double Kc;
         if (X1 == X2)
             Kc = maxK; // 最大にしておくことで，min で最終的に選ばれなくなる。
