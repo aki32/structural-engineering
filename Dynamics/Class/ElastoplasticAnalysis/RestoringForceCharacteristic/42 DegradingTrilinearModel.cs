@@ -1,0 +1,2 @@
+﻿
+namespace Dynamics.Class.ElastoplasticAnalysis;
