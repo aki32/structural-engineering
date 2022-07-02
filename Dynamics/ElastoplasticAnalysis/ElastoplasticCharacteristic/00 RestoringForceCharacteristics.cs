@@ -9,7 +9,7 @@ public abstract class ElastoplasticCharacteristic
     /// <summary>
     /// 初期剛性
     /// </summary>
-    public double K1 { get; set; }
+    public double K1;
 
     /// <summary>
     /// 次の変位に対する応力を算出
@@ -34,11 +34,11 @@ public abstract class ElastoplasticCharacteristic
         }
     }
 
-    public double CurrentX { get; set; }
-    public double CurrentF { get; set; }
-    public double LastX { get; set; }
-    public double LastF { get; set; }
-    
+    public double CurrentX;
+    public double CurrentF;
+    public double LastX;
+    public double LastF;
+
     // ★★★★★★★★★★★★★★★
 
 }

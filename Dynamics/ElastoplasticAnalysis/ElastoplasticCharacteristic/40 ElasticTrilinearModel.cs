@@ -6,14 +6,14 @@ public class ElasticTrilinearModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double Fy1 { get; set; }
-    public double Fy2 { get; set; }
-
     public double K2;
     public double K3;
 
-    private double Xy1 = 0d;
-    private double Xy2 = 0d;
+    public double Fy1;
+    public double Fy2;
+
+    public double Xy1 = 0d;
+    public double Xy2 = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 

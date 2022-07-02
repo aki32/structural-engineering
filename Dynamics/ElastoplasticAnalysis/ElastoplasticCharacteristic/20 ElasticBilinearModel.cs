@@ -6,11 +6,11 @@ public class ElasticBilinearModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double Fy { get; set; }
+    public double K2;
 
-    public double K2 { get; set; }
+    public double Fy;
 
-    private double Xy = 0d;
+    public double Xy = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 

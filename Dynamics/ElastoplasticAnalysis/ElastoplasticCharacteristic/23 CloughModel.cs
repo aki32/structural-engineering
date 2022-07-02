@@ -6,11 +6,11 @@ public class CloughModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double Fy { get; set; }
-
-    public double K2 { get; set; }
-
-    private double Xy = 0d;
+    public double K2;
+    
+    public double Fy;
+    
+    public double Xy = 0d;
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;

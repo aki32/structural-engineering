@@ -3,6 +3,8 @@
 namespace Dynamics.ElastoplasticAnalysis;
 public class ElasticModel : ElastoplasticCharacteristic
 {
+    
+    // ★★★★★★★★★★★★★★★ props
 
     // ★★★★★★★★★★★★★★★ inits
 

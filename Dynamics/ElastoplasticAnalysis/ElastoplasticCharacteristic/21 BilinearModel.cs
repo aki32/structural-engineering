@@ -6,19 +6,18 @@ public class BilinearModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double beta { get; set; }
-    public double Fy { get; set; }
+    public double K2;
 
-    public double K2 => K1 * beta;
+    public double Fy;
 
-    private double Xy = 0d;
+    public double Xy = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 
     public BilinearModel(double K1, double beta, double Fy)
     {
         this.K1 = K1;
-        this.beta = beta;
+        this.K2 = K1 * beta;
         this.Fy = Fy;
 
         Xy = Fy / K1;

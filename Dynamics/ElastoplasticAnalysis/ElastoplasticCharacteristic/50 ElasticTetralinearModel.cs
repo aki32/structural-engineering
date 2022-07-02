@@ -3,20 +3,20 @@
 namespace Dynamics.ElastoplasticAnalysis;
 public class ElasticTetralinearModel : ElastoplasticCharacteristic
 {
-    
-    // ★★★★★★★★★★★★★★★ props
 
-    public double Fy1 { get; set; }
-    public double Fy2 { get; set; }
-    public double Fy3 { get; set; }
+    // ★★★★★★★★★★★★★★★ props
 
     public double K2;
     public double K3;
     public double K4;
 
-    private double Xy1 = 0d;
-    private double Xy2 = 0d;
-    private double Xy3 = 0d;
+    public double Fy1;
+    public double Fy2;
+    public double Fy3;
+
+    public double Xy1 = 0d;
+    public double Xy2 = 0d;
+    public double Xy3 = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 
@@ -49,7 +49,7 @@ public class ElasticTetralinearModel : ElastoplasticCharacteristic
         #region fを求める
 
         // 設計イラストの通り
-        var f1 = K1 * CurrentX ;
+        var f1 = K1 * CurrentX;
         var f2 = K2 * (CurrentX - Xy1) + ((CurrentX > 0) ? Fy1 : -Fy1);
         var f3 = K3 * (CurrentX - Xy2) + ((CurrentX > 0) ? Fy2 : -Fy2);
         var f4 = K4 * (CurrentX - Xy3) + ((CurrentX > 0) ? Fy3 : -Fy3);

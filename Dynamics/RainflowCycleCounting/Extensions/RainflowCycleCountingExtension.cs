@@ -1,4 +1,5 @@
 ﻿using Aki32_Utilities.Extensions;
+using Dynamics.RainflowCycleCounting;
 using System.Text;
 
 namespace Dynamics.Class.RainflowCycleCounting

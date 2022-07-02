@@ -6,19 +6,19 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double Fy { get; set; }
-    public double alpha { get; set; }
-
-    public double K2 { get; set; }
     public double K1r => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha); // DegradingStateにいない時は自動的に K1 となる。
+    public double K2;
 
-    private double Xy = 0d;
+    public double Fy;
+    public double alpha;
+
+    public double Xy = 0d;
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
     private double MinX = 0d;
 
-    private bool IsInDegradingState = false;
+    public bool IsInDegradingState = false;
     private double DegradeStartX = 0;
     private double DegradeStartF = 0;
 
