@@ -1,4 +1,5 @@
-﻿using Aki32_Utilities.OwesomeModels;
+﻿using Aki32_Utilities.Extensions;
+using Aki32_Utilities.OwesomeModels;
 using Dynamics.ElastoplasticAnalysis;
 using Dynamics.RainflowCycleCounting;
 using Dynamics.RDTechnique;
@@ -13,9 +14,6 @@ namespace Dynamics
             Console.WriteLine($"★ Process Started!");
             Console.WriteLine();
 
-            // TODO:
-            // merge rainflow
-            // merge rd method
 
             // tests
             {
@@ -131,6 +129,8 @@ namespace Dynamics
                     //rainflow.CalcRainflow(5, 1 / 3d, false);
                     //rainflow.SaveResultHistoryToCsv();
                     //rainflow.SaveRainBranchesToCsv();
+
+                    //// inputCsv.Rainflow(null, 5, 1 / 3d);
                 }
 
                 // RDTechnique
@@ -138,7 +138,7 @@ namespace Dynamics
                     //var basePath = @"..\..\..\# TestModel\RDTechnique";
 
                     //// Define IO paths
-                    //var inputCsv = new FileInfo(Path.Combine(basePath, @"input.csv"));
+                    //var inputCsv = new FileInfo(Path.Combine(basePath, @"input.csv")).OsSafe();
 
                     //// Read input csv
                     //var rd = RDTechniqueCalculator.FromCsv(inputCsv);
@@ -161,5 +161,6 @@ namespace Dynamics
 
             Console.ReadLine();
         }
+
     }
 }
