@@ -3,7 +3,7 @@ using Dynamics.RainflowCycleCounting;
 using System.Text;
 
 namespace Dynamics.RainflowCycleCounting;
-internal static class RainflowCycleCountingExtension
+public static class RainflowCycleCountingExtension
 {
 
     /// <summary>
