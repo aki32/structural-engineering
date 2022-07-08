@@ -21,7 +21,10 @@ public class EPTester
         resultHistory.Name = $"result_{wave.Name}_{ep.GetType().Name}_{GetType().Name}";
 
         for (int i = 0; i < wave.x.Length; i++)
-            resultHistory.f[i] = ep.CalcNextF(wave.x[i]);
+        {
+            resultHistory.f[i] = ep.TryCalcNextF(wave.x[i]);
+            ep.AdoptNextPoint();
+        }
         return resultHistory;
     }
 

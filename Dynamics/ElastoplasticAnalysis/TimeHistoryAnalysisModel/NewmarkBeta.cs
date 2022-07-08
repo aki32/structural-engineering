@@ -8,12 +8,17 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
     // ★★★★★★★★★★★★★★★ props
 
     public double beta { get; set; }
+    public double gamma { get; set; }
+
+    public double ConvergeThre { get; set; } = 1e-6;
+
 
     // ★★★★★★★★★★★★★★★ inits
 
-    public NewmarkBetaModel(double beta)
+    public NewmarkBetaModel(double beta, double gamma = 0.5)
     {
         this.beta = beta;
+        this.gamma = gamma;
     }
 
     // ★★★★★★★★★★★★★★★ methods
@@ -34,27 +39,79 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
         var m = model.m;
         var dt = wave.TimeStep;
 
-        for (int i = 1; i < resultHistory.DataRowCount; i++)
+        if (model.EP is ElasticModel)
         {
-            var p = resultHistory.GetStep(i - 1);
-            var c = resultHistory.GetStep(i);
+            // simple calc
 
-            var F = epModel.CurrentF;
             var w = model.w;
             var w2 = w * w;
 
-            // x → F/(m*w2)
-            var xtt_nume1 = c.ytt + 2 * h * w * (p.xt + 0.5 * p.xtt * dt);
-            var xtt_nume2 = w2 * ((F / (m * w2)) + p.xt * dt + (0.5 - beta) * p.xtt * dt * dt);
-            var xtt_nume = xtt_nume1 + xtt_nume2;
-            var xtt_denom = 1 + h * w * dt + beta * w2 * dt * dt;
-            c.xtt = -xtt_nume / xtt_denom;
-            c.xt = p.xt + 0.5 * (p.xtt + c.xtt) * dt;
-            c.x = p.x + p.xt * dt + ((0.5 - beta) * p.xtt + beta * c.xtt) * dt * dt;
-            c.xtt_ytt = c.xtt + c.ytt;
-            c.f = epModel.CalcNextF(c.x);
+            for (int i = 0; i < resultHistory.DataRowCount - 1; i++)
+            {
+                var c = resultHistory.GetStep(i);
+                var n = resultHistory.GetStep(i + 1);
 
-            resultHistory.SetStep(i, c);
+                var xtt_nume1 = n.ytt + 2 * h * w * (c.xt + 0.5 * c.xtt * dt);
+                var xtt_nume2 = w2 * (c.x + c.xt * dt + (0.5 - beta) * c.xtt * dt * dt);
+                var xtt_nume = xtt_nume1 + xtt_nume2;
+                var xtt_denom = 1 + h * w * dt + beta * w2 * dt * dt;
+                n.xtt = -xtt_nume / xtt_denom;
+                n.xt = c.xt + 0.5 * (c.xtt + n.xtt) * dt;
+                n.x = c.x + c.xt * dt + ((0.5 - beta) * c.xtt + beta * n.xtt) * dt * dt;
+                n.xtt_plus_ytt = n.xtt + n.ytt;
+                n.f = epModel.TryCalcNextF(n.x);
+                resultHistory.SetStep(i, c);
+
+                epModel.AdoptNextPoint();
+                resultHistory.SetStep(i + 1, n);
+            }
+        
+        }
+        else
+        {
+            // converging calc
+            // 1, let var a1
+            // 2, calc newmark to get x1
+            // 3, calc epModel to get a2
+            // 4, converge a1 and a2 with changing a1
+
+            for (int i = 0; i < resultHistory.DataRowCount - 1; i++)
+            {
+                var c = resultHistory.GetStep(i);
+                var n = resultHistory.GetStep(i + 1);
+
+                var a1 = c.xtt;
+                //Console.WriteLine($"{i,4}========================================");
+                while (true)
+                {
+                    n.x = c.x + c.xt * dt + ((0.5 - beta) * c.xtt + beta * a1) * dt * dt;
+                    n.xt = c.xt + ((1 - gamma) * c.xtt + gamma * a1) * dt;
+
+                    var R = epModel.TryCalcNextF(n.x);
+                    var w = Math.Sqrt(epModel.NextAverageK / m);
+                    var D = 2 * h * w * c.xt * m;
+                    var a2 = -n.ytt - (D + R) / m;
+
+                    //Console.WriteLine($"{a1,10}, {a2,10} = {Math.Abs(a1 - a2),10}");
+                    if (Math.Abs(a1 - a2) < ConvergeThre)
+                    {
+                        n.f = R;
+                        n.xtt = a1;
+                        n.xtt_plus_ytt = n.xtt + n.ytt;
+                        n["K"] = epModel.NextAverageK;
+                        break;
+                    }
+                    else
+                    {
+                        a1 = a2;
+                        continue;
+                    }
+                }
+
+                epModel.AdoptNextPoint();
+                resultHistory.SetStep(i + 1, n);
+            }
+
         }
 
         return resultHistory;

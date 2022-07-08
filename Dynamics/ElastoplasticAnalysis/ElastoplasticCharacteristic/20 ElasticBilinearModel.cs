@@ -25,31 +25,29 @@ public class ElasticBilinearModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ methods
 
-    public override double CalcNextF(double targetX)
+    public override double TryCalcNextF(double targetX)
     {
-        if (LastX == targetX)
-            return CurrentF;
+        if (CurrentX == targetX)
+            return NextF;
 
-        LastX = CurrentX;
-        LastF = CurrentF;
-        CurrentX = targetX;
+        NextX = targetX;
 
         #region fを求める
 
         // 設計イラストの通り
-        var f1 = K1 * CurrentX;
-        var f2 = K2 * (CurrentX - Xy) + ((CurrentX > 0) ? Fy : -Fy);
+        var f1 = K1 * NextX;
+        var f2 = K2 * (NextX - Xy) + ((NextX > 0) ? Fy : -Fy);
 
         // max, min
         var fs = new List<double> { f1, f2 };
-        if (CurrentX > 0)
-            CurrentF = fs.Min();
+        if (NextX > 0)
+            NextF = fs.Min();
         else
-            CurrentF = fs.Max();
+            NextF = fs.Max();
 
         #endregion
 
-        return CurrentF;
+        return NextF;
     }
 
     // ★★★★★★★★★★★★★★★

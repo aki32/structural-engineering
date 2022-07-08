@@ -11,21 +11,21 @@ public class ElasticModel : ElastoplasticCharacteristic
     public ElasticModel(double K1)
     {
         this.K1 = K1;
+
+        CurrentK = K1;
     }
 
     // ★★★★★★★★★★★★★★★ methods
 
-    public override double CalcNextF(double targetX)
+    public override double TryCalcNextF(double targetX)
     {
-        if (LastX == targetX)
-            return CurrentF;
+        if (CurrentX == targetX)
+            return NextF;
 
-        LastX = CurrentX;
-        LastF = CurrentF;
-        CurrentX = targetX;
-        CurrentF = targetX * K1;
+        NextX = targetX;
+        NextF = targetX * K1;
         
-        return CurrentF;
+        return NextF;
     }
 
     // ★★★★★★★★★★★★★★★ 

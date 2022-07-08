@@ -21,36 +21,36 @@ public class BilinearModel : ElastoplasticCharacteristic
         this.Fy = Fy;
 
         Xy = Fy / K1;
+
+        CurrentK = K1;
     }
 
     // ★★★★★★★★★★★★★★★ methods
 
-    public override double CalcNextF(double targetX)
+    public override double TryCalcNextF(double nextX)
     {
-        if (LastX == targetX)
+        if (CurrentX == nextX)
             return CurrentF;
 
-        LastX = CurrentX;
-        LastF = CurrentF;
-        CurrentX = targetX;
+        NextX = nextX;
 
         #region fを求める
 
         // 設計イラストの通り
-        var dX = CurrentX - LastX;
-        var f1 = K1 * dX + LastF;
-        var fy = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
+        var dX = NextX - CurrentX;
+        var f1 = K1 * dX + CurrentF;
+        var fy = K2 * (NextX - Xy) + ((NextX > CurrentX) ? Fy : -Fy);
 
         // 最小値／最大値
         var fs = new List<double> { f1, fy };
-        if (CurrentX > LastX)
-            CurrentF = fs.Min();
+        if (NextX > CurrentX)
+            NextF = fs.Min();
         else
-            CurrentF = fs.Max();
+            NextF = fs.Max();
 
         #endregion
 
-        return CurrentF;
+        return NextF;
     }
 
     // ★★★★★★★★★★★★★★★
