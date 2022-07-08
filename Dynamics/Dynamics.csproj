@@ -8,20 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\20 ElasticBilinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\22 DegradingBilinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\23 CloughModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\24 DegradingCloughModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\25 PerfectElastoPlasticModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\40 ElasticTrilinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\41 TrilinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\42 DegradingTrilinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\42 TakedaModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\50 ElasticTetralinearModel.cs" />
-    <Compile Remove="ElastoplasticAnalysis\ElastoplasticCharacteristic\60 RambergOsgoodModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GitSubmodules\aki32-utilities\Aki32 Utilities.csproj" />
   </ItemGroup>
 

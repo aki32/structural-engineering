@@ -33,13 +33,11 @@ public class CloughModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ methods
 
-    public override double CalcNextF(double targetX)
+    public override double TryCalcNextF(double targetX)
     {
         if (CurrentX == targetX)
             return NextF;
 
-        CurrentX = NextX;
-        CurrentF = NextF;
         NextX = targetX;
 
         #region fを求める
@@ -79,21 +77,6 @@ public class CloughModel : ElastoplasticCharacteristic
 
         #endregion
 
-        #region 最大最小を更新
-
-        if (NextX > MaxX)
-        {
-            MaxX = NextX;
-            MaxF = NextF;
-        }
-        else if (NextX < MinX)
-        {
-            MinX = NextX;
-            MinF = NextF;
-        }
-
-        #endregion
-
         return NextF;
     }
 
@@ -116,6 +99,26 @@ public class CloughModel : ElastoplasticCharacteristic
             Kc = (Y2 - F1) / (X2 - X1);
         Kc = Math.Min(maxK, Kc); // for safety
         return Kc * (targetX - X1) + F1;
+    }
+
+    public override void AdoptNextPoint()
+    {
+        #region 最大最小を更新
+
+        if (NextX > MaxX)
+        {
+            MaxX = NextX;
+            MaxF = NextF;
+        }
+        else if (NextX < MinX)
+        {
+            MinX = NextX;
+            MinF = NextF;
+        }
+
+        #endregion
+
+        base.AdoptNextPoint();
     }
 
     // ★★★★★★★★★★★★★★★

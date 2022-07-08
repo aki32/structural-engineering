@@ -22,8 +22,6 @@ public class ElasticModel : ElastoplasticCharacteristic
         if (CurrentX == targetX)
             return NextF;
 
-        CurrentX = NextX;
-        CurrentF = NextF;
         NextX = targetX;
         NextF = targetX * K1;
         

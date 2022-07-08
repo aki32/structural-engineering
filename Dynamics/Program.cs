@@ -86,9 +86,9 @@ namespace Dynamics
                             var epList = new List<ElastoplasticCharacteristic>
                             {
                                 new ElasticModel(2),
-                                new BilinearModel(2, 0.3, 10),
-                                new CloughModel(2, 0.3, 10),
-                                new DegradingCloughModel(2, 0.1, 10, 0.4),
+                                new BilinearModel(2, 0.1, 8),
+                                new CloughModel(2, 0.1, 8),
+                                new DegradingCloughModel(2, 0.1, 8, 0.4),
                             };
 
                             foreach (var ep in epList)

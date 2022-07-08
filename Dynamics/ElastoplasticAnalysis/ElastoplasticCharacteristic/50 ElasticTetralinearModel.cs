@@ -37,13 +37,11 @@ public class ElasticTetralinearModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ methods
 
-    public override double CalcNextF(double targetX)
+    public override double TryCalcNextF(double targetX)
     {
         if (CurrentX == targetX)
             return NextF;
 
-        CurrentX = NextX;
-        CurrentF = NextF;
         NextX = targetX;
 
         #region fを求める

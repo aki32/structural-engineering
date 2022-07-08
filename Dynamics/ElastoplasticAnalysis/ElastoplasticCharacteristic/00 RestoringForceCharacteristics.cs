@@ -41,7 +41,7 @@ public abstract class ElastoplasticCharacteristic
     /// <summary>
     /// NextX, NextFの組み合わせを採用。
     /// </summary>
-    public void AdoptNextPoint()
+    public virtual void AdoptNextPoint()
     {
         CurrentK = NextAverageK;
         CurrentX = NextX;
