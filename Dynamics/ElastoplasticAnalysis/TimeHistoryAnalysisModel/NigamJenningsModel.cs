@@ -5,13 +5,20 @@ namespace Dynamics.ElastoplasticAnalysis;
 public class NigamJenningsModel : ITimeHistoryAnalysisModel
 {
 
+    // ★★★★★★★★★★★★★★★ props
+
+    public double? DesiredTimeStep { get; set; } // TODO: 未実装
+    public double ConvergeThre { get; set; } = 1e-6;
+
+
     // ★★★★★★★★★★★★★★★ inits
 
     /// <summary>
     /// constructor
     /// </summary>
-    public NigamJenningsModel()
+    public NigamJenningsModel(double? desiredTimeStep = null)
     {
+        DesiredTimeStep = desiredTimeStep;
     }
 
     // ★★★★★★★★★★★★★★★ methods
@@ -34,10 +41,9 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
         var h1 = Math.Sqrt(1.0 - h * h); // √1-h2
         var h2 = 2 * h * h - 1;          // 2h2-1
 
-        for (int i = 1; i < resultHistory.DataRowCount; i++)
+        if (model.EP is ElasticModel)
         {
-            var p = resultHistory.GetStep(i - 1);
-            var c = resultHistory.GetStep(i);
+            // simple calc
 
             #region 係数の計算
 
@@ -112,14 +118,25 @@ public class NigamJenningsModel : ITimeHistoryAnalysisModel
 
             #endregion
 
-            c.x = a11 * p.x + a12 * p.xt + b11 * p.ytt + b12 * p.ytt;
-            c.xt = a21 * p.x + a22 * p.xt + b21 * p.ytt + b22 * p.ytt;
-            var F = epModel.CalcNextF(c.x);
-            c.xtt = p.ytt - 2 * h * w * c.xt - F / m;  // wo2*x → F/m
-            c.xtt_ytt = c.xtt + c.ytt;
-            c.f = F;
+            for (int i = 0; i < resultHistory.DataRowCount - 1; i++)
+            {
+                var c = resultHistory.GetStep(i);
+                var n = resultHistory.GetStep(i + 1);
 
-            resultHistory.SetStep(i, c);
+                n.x = a11 * c.x + a12 * c.xt + b11 * c.ytt + b12 * n.ytt;
+                n.xt = a21 * c.x + a22 * c.xt + b21 * c.ytt + b22 * n.ytt;
+                n.xtt = -n.ytt - 2 * h * w * n.xt - w2 / n.x;  // wo2*x → F/m
+                n.xtt_plus_ytt = n.xtt + n.ytt;
+                n.f = epModel.TryCalcNextF(n.x);
+                epModel.AdoptNextPoint();
+
+                resultHistory.SetStep(i + 1, n);
+            }
+
+        }
+        else
+        {
+            throw new NotImplementedException("nigam-jennings is not for elastoplastic models");
         }
 
         return resultHistory;

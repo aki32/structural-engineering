@@ -11,33 +11,48 @@ public abstract class ElastoplasticCharacteristic
     /// </summary>
     public double K1;
 
-    /// <summary>
-    /// 次の変位に対する応力を算出
-    /// </summary>
-    /// <param name="targetX"></param>
-    /// <returns></returns>
-    public abstract double CalcNextF(double targetX);
-
-    /// <summary>
-    /// 現在の接線の傾き
-    /// </summary>
-    public double CurrentK
+    public double NextX;
+    public double NextF;
+    public double NextAverageK
     {
         get
         {
-            var dX = LastX - CurrentX;
-            var dF = LastF - CurrentF;
+            var dX = NextX - CurrentX;
+            var dF = NextF - CurrentF;
             if (dX == 0)
-                return K1;
+                return CurrentK;
             else
-                return Math.Max(K1, Math.Abs(dF / dX));
+                return Math.Max(Math.Min(K1, Math.Abs(dF / dX)), MIN_K);
         }
     }
-
     public double CurrentX;
     public double CurrentF;
-    public double LastX;
-    public double LastF;
+    public double CurrentK;
+
+    // ★★★★★★★★★★★★★★★ methods
+
+    /// <summary>
+    /// 次の変位に対する応力を算出してみる。
+    /// </summary>
+    /// <param name="targetX"></param>
+    /// <returns></returns>
+    public abstract double TryCalcNextF(double nextX);
+
+    /// <summary>
+    /// NextX, NextFの組み合わせを採用。
+    /// </summary>
+    public void AdoptNextPoint()
+    {
+        CurrentK = NextAverageK;
+        CurrentX = NextX;
+        CurrentF = NextF;
+    }
+
+
+    // ★★★★★★★★★★★★★★★ const
+
+    private const double MIN_K = 1e-10;
+
 
     // ★★★★★★★★★★★★★★★
 

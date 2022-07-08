@@ -39,31 +39,31 @@ public class ElasticTetralinearModel : ElastoplasticCharacteristic
 
     public override double CalcNextF(double targetX)
     {
-        if (LastX == targetX)
-            return CurrentF;
+        if (CurrentX == targetX)
+            return NextF;
 
-        LastX = CurrentX;
-        LastF = CurrentF;
-        CurrentX = targetX;
+        CurrentX = NextX;
+        CurrentF = NextF;
+        NextX = targetX;
 
         #region fを求める
 
         // 設計イラストの通り
-        var f1 = K1 * CurrentX;
-        var f2 = K2 * (CurrentX - Xy1) + ((CurrentX > 0) ? Fy1 : -Fy1);
-        var f3 = K3 * (CurrentX - Xy2) + ((CurrentX > 0) ? Fy2 : -Fy2);
-        var f4 = K4 * (CurrentX - Xy3) + ((CurrentX > 0) ? Fy3 : -Fy3);
+        var f1 = K1 * NextX;
+        var f2 = K2 * (NextX - Xy1) + ((NextX > 0) ? Fy1 : -Fy1);
+        var f3 = K3 * (NextX - Xy2) + ((NextX > 0) ? Fy2 : -Fy2);
+        var f4 = K4 * (NextX - Xy3) + ((NextX > 0) ? Fy3 : -Fy3);
 
         // 最小値／最大値
         var fs = new List<double> { f1, f2, f3, f4 };
-        if (CurrentX > 0)
-            CurrentF = fs.Min();
+        if (NextX > 0)
+            NextF = fs.Min();
         else
-            CurrentF = fs.Max();
+            NextF = fs.Max();
 
         #endregion
 
-        return CurrentF;
+        return NextF;
     }
 
     // ★★★★★★★★★★★★★★★

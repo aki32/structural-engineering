@@ -42,67 +42,67 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
     public override double CalcNextF(double targetX)
     {
-        if (LastX == targetX)
-            return CurrentF;
+        if (CurrentX == targetX)
+            return NextF;
 
-        LastX = CurrentX;
-        LastF = CurrentF;
-        CurrentX = targetX;
+        CurrentX = NextX;
+        CurrentF = NextF;
+        NextX = targetX;
 
         #region fを求める
 
         // 設計イラストの通り
-        var dX = CurrentX - LastX;
-        var f1r = K1r * dX + LastF;
-        var f2 = K2 * (CurrentX - Xy) + ((CurrentX > LastX) ? Fy : -Fy);
+        var dX = NextX - CurrentX;
+        var f1r = K1r * dX + CurrentF;
+        var f2 = K2 * (NextX - Xy) + ((NextX > CurrentX) ? Fy : -Fy);
         double fc; // fcrなどと兼用
 
         // 向かってる先でX軸をまたがない／またぐ
-        if ((CurrentX > LastX && LastF > 0) || (CurrentX < LastX && LastF < 0))
+        if ((NextX > CurrentX && CurrentF > 0) || (NextX < CurrentX && CurrentF < 0))
         {
             // もし DegradingState に居るのにX軸をまたがないなら，fcをセットバックさせる。
             if (IsInDegradingState)
             {
                 // fcr
-                if (CurrentX > LastX)
-                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MaxX, MaxF, CurrentX);
+                if (NextX > CurrentX)
+                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MaxX, MaxF, NextX);
                 else
-                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MinX, MinF, CurrentX);
+                    fc = CalcF_FromPoints(DegradeStartX, DegradeStartF, MinX, MinF, NextX);
             }
             else
             {
                 // fc
-                if (CurrentX > LastX)
-                    fc = CalcF_FromPoints(LastX, LastF, MaxX, MaxF, CurrentX);
+                if (NextX > CurrentX)
+                    fc = CalcF_FromPoints(CurrentX, CurrentF, MaxX, MaxF, NextX);
                 else
-                    fc = CalcF_FromPoints(LastX, LastF, MinX, MinF, CurrentX);
+                    fc = CalcF_FromPoints(CurrentX, CurrentF, MinX, MinF, NextX);
             }
         }
         else
         {
-            double HitX = LastX + (-LastF / K1r);
+            double HitX = CurrentX + (-CurrentF / K1r);
 
             // fc0, fcr0
-            if (CurrentX > LastX)
-                fc = CalcF_FromPoints(HitX, 0, MaxX, MaxF, CurrentX);
+            if (NextX > CurrentX)
+                fc = CalcF_FromPoints(HitX, 0, MaxX, MaxF, NextX);
             else
-                fc = CalcF_FromPoints(HitX, 0, MinX, MinF, CurrentX);
+                fc = CalcF_FromPoints(HitX, 0, MinX, MinF, NextX);
         }
 
         // 最小値／最大値
         var fs = new List<double> { f1r, f2, fc };
-        if (CurrentX > LastX)
-            CurrentF = fs.Min();
+        if (NextX > CurrentX)
+            NextF = fs.Min();
         else
-            CurrentF = fs.Max();
+            NextF = fs.Max();
 
         // もし fr を採用した場合は，DegradingState に居ることになる。そうでなければ DegradingState 外
-        if (f1r == CurrentF)
+        if (f1r == NextF)
         {
             if (IsInDegradingState == false)
             {
-                DegradeStartX = CurrentX;
-                DegradeStartF = CurrentF;
+                DegradeStartX = NextX;
+                DegradeStartF = NextF;
                 IsInDegradingState = true;
             }
         }
@@ -118,20 +118,20 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
         #region 最大最小を更新
 
-        if (CurrentX > MaxX)
+        if (NextX > MaxX)
         {
-            MaxX = CurrentX;
-            MaxF = CurrentF;
+            MaxX = NextX;
+            MaxF = NextF;
         }
-        else if (CurrentX < MinX)
+        else if (NextX < MinX)
         {
-            MinX = CurrentX;
-            MinF = CurrentF;
+            MinX = NextX;
+            MinF = NextF;
         }
 
         #endregion
 
-        return CurrentF;
+        return NextF;
     }
 
     /// <summary>

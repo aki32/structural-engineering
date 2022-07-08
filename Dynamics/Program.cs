@@ -72,31 +72,41 @@ namespace Dynamics
 
                     // combined
                     {
-                        //var epList = new List<ElastoplasticCharacteristic>
-                        //{
-                        //    new BilinearModel(2, 0.1, 8),
-                        //    new CloughModel(2, 0.1, 8),
-                        //    new DegradingCloughModel(2, 0.1, 8, 0.4),
-                        //};
+                        var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
+                            {
+                                new NewmarkBetaModel(0.25),
+                                //new NigamJenningsModel(),
+                            };
 
-                        //var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
-                        //{
-                        //    new NewmarkBetaModel(0.25),
-                        //    new NigamJenningsModel(),
-                        //};
+                        var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
+                        var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
 
-                        //var waveCsv = new FileInfo(@$"{basePath}\Hachinohe-NS.csv");
-                        //var wave = TimeHistory.FromCsv(waveCsv, new string[] { "t", "ytt" });
+                        foreach (var waveAnalysisModel in waveAnalysisModelList)
+                        {
+                            var epList = new List<ElastoplasticCharacteristic>
+                            {
+                                new ElasticModel(2),
+                                new BilinearModel(2, 0.3, 10),
+                                new CloughModel(2, 0.3, 10),
+                                new DegradingCloughModel(2, 0.1, 10, 0.4),
+                            };
 
-                        //foreach (var ep in epList)
-                        //{
-                        //    foreach (var waveAnalysisModel in waveAnalysisModelList)
-                        //    {
-                        //        var model = SDoFModel.FromT(1, 0.03, ep);
-                        //        var result = model.Calc(wave, waveAnalysisModel);
-                        //        result.SaveToCsv();
-                        //    }
-                        //}
+                            foreach (var ep in epList)
+                            {
+                                try
+                                {
+                                    var model = SDoFModel.FromT(1, 0.03, ep);
+                                    var result = model.Calc(wave, waveAnalysisModel);
+                                    result.SaveToCsv();
+                                    Console.WriteLine("[O]");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"[X]: {ex.Message}");
+                                    throw;
+                                }
+                            }
+                        }
                     }
 
                     // spectrum analysis
