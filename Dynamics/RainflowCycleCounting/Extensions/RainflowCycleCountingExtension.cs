@@ -12,19 +12,33 @@ public static class RainflowCycleCountingExtension
     /// <param name="inputFile"></param>
     /// <param name="outputFile">when null, automatically set to {inputFile.DirectoryName}/output_Rainflow/{inputFile.Name}</param>
     /// <returns></returns>
-    public static FileInfo Rainflow(this FileInfo inputFile, FileInfo? outputFile, double C, double beta, bool consoleOutput = false)
+    public static FileInfo Rainflow(this FileInfo inputFile, FileInfo? outputFile, double C, double beta, bool consoleOutput = false, bool outputRainBranches = false, FileInfo? outputRainBranchesFile = null)
     {
         // preprocess
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // to handle Shift-JIS
+
         if (outputFile is null)
             outputFile = new FileInfo(Path.Combine(inputFile.DirectoryName, "output_Rainflow", inputFile.Name));
         if (!outputFile.Directory.Exists) outputFile.Directory.Create();
         if (outputFile.Exists) outputFile.Delete();
 
+        if (outputRainBranches)
+        {
+            if (outputRainBranchesFile is null)
+                outputRainBranchesFile = new FileInfo(Path.Combine(inputFile.DirectoryName, "output_Rainflow", $"{Path.GetFileNameWithoutExtension(inputFile.Name)}_Branches.csv"));
+            if (!outputRainBranchesFile.Directory.Exists) outputRainBranchesFile.Directory.Create();
+            if (outputRainBranchesFile.Exists) outputRainBranchesFile.Delete();
+        }
+
         // main
-        var muHistory = RainflowCalculator.FromCsv(inputFile);
-        muHistory.CalcRainflow(C, beta, consoleOutput);
-        muHistory.resultHistory.SaveToCsv(outputFile);
+        var rainflow = RainflowCalculator.FromCsv(inputFile);
+        rainflow.CalcRainflow(C, beta, consoleOutput);
+        rainflow.SaveResultHistoryToCsv(outputFile);
+
+        if (outputRainBranches)
+        {
+            rainflow.SaveRainBranchesToCsv(outputRainBranchesFile);
+        }
 
         return outputFile;
     }
@@ -35,7 +49,7 @@ public static class RainflowCycleCountingExtension
     /// <param name="inputDir"></param>
     /// <param name="outputDir">when null, automatically set to {inputDir.FullName}/output_Rainflow</param>
     /// <returns></returns>
-    public static DirectoryInfo Rainflow_Loop(this DirectoryInfo inputDir, DirectoryInfo? outputDir, double C, double beta)
+    public static DirectoryInfo Rainflow_Loop(this DirectoryInfo inputDir, DirectoryInfo? outputDir, double C, double beta, bool outputRainBranches = false, DirectoryInfo? outputRainBranchesDir = null)
     {
         // preprocess
         if (UtilConfig.ConsoleOutput)
@@ -44,6 +58,12 @@ public static class RainflowCycleCountingExtension
             outputDir = new DirectoryInfo(Path.Combine(inputDir.FullName, "output_Rainflow"));
         if (!outputDir.Exists) outputDir.Create();
 
+        if (outputRainBranches)
+        {
+            if (outputRainBranchesDir is null)
+                outputRainBranchesDir = new DirectoryInfo(Path.Combine(inputDir.FullName, "output_Rainflow"));
+            if (!outputRainBranchesDir.Exists) outputRainBranchesDir.Create();
+        }
 
         // main
         foreach (var file in inputDir.GetFiles())
@@ -51,7 +71,16 @@ public static class RainflowCycleCountingExtension
             var newFilePath = Path.Combine(outputDir.FullName, file.Name);
             try
             {
-                file.Rainflow(new FileInfo(newFilePath), C, beta);
+                if (outputRainBranches)
+                {
+                    file.Rainflow(new FileInfo(newFilePath), C, beta);
+                }
+                else
+                {
+                    var newRainBranchesFilePath = Path.Combine(outputRainBranchesDir!.FullName, $"{Path.GetFileNameWithoutExtension(file.Name)}_Branches.csv");
+                    file.Rainflow(new FileInfo(newFilePath), C, beta,
+                        outputRainBranches: outputRainBranches, outputRainBranchesFile: new FileInfo(newRainBranchesFilePath));
+                }
                 if (UtilConfig.ConsoleOutput)
                     Console.WriteLine($"O: {newFilePath}");
             }
