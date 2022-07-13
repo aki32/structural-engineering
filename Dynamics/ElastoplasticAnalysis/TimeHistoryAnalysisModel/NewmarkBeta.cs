@@ -35,7 +35,6 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
         resultHistory.Name = $"result_{wave.Name}_{model.EP.GetType().Name}_{GetType().Name}";
 
         var epModel = model.EP;
-        var h = model.h;
         var m = model.m;
         var dt = wave.TimeStep;
 
@@ -43,6 +42,7 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
         {
             // simple calc
 
+            var h = model.h;
             var w = model.w;
             var w2 = w * w;
 
@@ -89,6 +89,8 @@ public class NewmarkBetaModel : ITimeHistoryAnalysisModel
 
                     var R = epModel.TryCalcNextF(n.x);
                     var w = Math.Sqrt(epModel.NextAverageK / m);
+                    var h = model.h + epModel.Next_heq;
+                    n["h"] = h;
                     var D = 2 * h * w * c.xt * m;
                     var a2 = -n.ytt - (D + R) / m;
 

@@ -8,19 +8,16 @@ public class ElasticBilinearModel : ElastoplasticCharacteristic
 
     public double K2;
 
-    public double Fy;
-
-    public double Xy = 0d;
-
     // ★★★★★★★★★★★★★★★ inits
 
     public ElasticBilinearModel(double K1, double beta, double Fy)
     {
+        this.beta = beta;
         this.K1 = K1;
         this.K2 = K1 * beta;
-        this.Fy = Fy;
+        this.Fy1 = Fy;
 
-        Xy = Fy / K1;
+        Xy1 = Fy / K1;
     }
 
     // ★★★★★★★★★★★★★★★ methods
@@ -36,7 +33,7 @@ public class ElasticBilinearModel : ElastoplasticCharacteristic
 
         // 設計イラストの通り
         var f1 = K1 * NextX;
-        var f2 = K2 * (NextX - Xy) + ((NextX > 0) ? Fy : -Fy);
+        var f2 = K2 * (NextX - Xy1) + ((NextX > 0) ? Fy1 : -Fy1);
 
         // max, min
         var fs = new List<double> { f1, f2 };

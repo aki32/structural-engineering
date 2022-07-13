@@ -9,16 +9,15 @@ public class ElasticTrilinearModel : ElastoplasticCharacteristic
     public double K2;
     public double K3;
 
-    public double Fy1;
     public double Fy2;
 
-    public double Xy1 = 0d;
     public double Xy2 = 0d;
 
     // ★★★★★★★★★★★★★★★ inits
 
     public ElasticTrilinearModel(double K1, double beta1, double Fy1, double beta2, double Fy2)
     {
+        this.beta = beta1;
         this.K1 = K1;
         this.K2 = K1 * beta1;
         this.K3 = K1 * beta2;

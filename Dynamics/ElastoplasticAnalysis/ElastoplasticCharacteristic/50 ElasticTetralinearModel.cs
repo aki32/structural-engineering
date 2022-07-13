@@ -10,11 +10,9 @@ public class ElasticTetralinearModel : ElastoplasticCharacteristic
     public double K3;
     public double K4;
 
-    public double Fy1;
     public double Fy2;
     public double Fy3;
 
-    public double Xy1 = 0d;
     public double Xy2 = 0d;
     public double Xy3 = 0d;
 
@@ -22,6 +20,7 @@ public class ElasticTetralinearModel : ElastoplasticCharacteristic
 
     public ElasticTetralinearModel(double K1, double beta1, double Fy1, double beta2, double Fy2, double beta3, double Fy3)
     {
+        this.beta = beta1;
         this.K1 = K1;
         this.K2 = K1 * beta1;
         this.K3 = K1 * beta2;

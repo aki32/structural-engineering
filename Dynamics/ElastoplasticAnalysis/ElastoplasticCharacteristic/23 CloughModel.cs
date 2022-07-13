@@ -8,9 +8,6 @@ public class CloughModel : ElastoplasticCharacteristic
 
     public double K2;
     
-    public double Fy;
-    
-    public double Xy = 0d;
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
@@ -20,11 +17,12 @@ public class CloughModel : ElastoplasticCharacteristic
 
     public CloughModel(double K1, double beta, double Fy)
     {
+        this.beta = beta;
         this.K1 = K1;
         this.K2 = K1 * beta;
-        this.Fy = Fy;
+        this.Fy1 = Fy;
 
-        Xy = Fy / K1;
+        Xy1 = Fy / K1;
         MaxF = Fy;
         MaxX = MaxF / K1;
         MinF = -Fy;
@@ -45,7 +43,7 @@ public class CloughModel : ElastoplasticCharacteristic
         // 設計イラストの通り
         var dX = NextX - CurrentX;
         var f1r = K1 * dX + CurrentF;
-        var f2 = K2 * (NextX - Xy) + ((NextX > CurrentX) ? Fy : -Fy);
+        var f2 = K2 * (NextX - Xy1) + ((NextX > CurrentX) ? Fy1 : -Fy1);
         double fc; // fc0と兼用
 
         // 向かってる先でX軸をまたがない／またぐ

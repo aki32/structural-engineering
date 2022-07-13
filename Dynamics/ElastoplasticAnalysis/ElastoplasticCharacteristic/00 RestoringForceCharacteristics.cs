@@ -4,7 +4,7 @@ namespace Dynamics.ElastoplasticAnalysis;
 public abstract class ElastoplasticCharacteristic
 {
 
-    // ★★★★★★★★★★★★★★★ props
+    // ★★★★★★★★★★★★★★★ props for all
 
     /// <summary>
     /// 初期剛性
@@ -29,6 +29,18 @@ public abstract class ElastoplasticCharacteristic
     public double CurrentF;
     public double CurrentK;
 
+    // ★★★★★★★★★★★★★★★ props presets (use only when needed)
+
+    public double alpha = 0;
+    public double beta = 0;
+
+    public double Fy1 = 0;
+    public double Xy1 = 0;
+
+    public heq_EquationTypes heq_EquationType { get; set; } = heq_EquationTypes.JapaneseArchitecturalLaw_S;
+    public double Current_heq => heq(CurrentX);
+    public double Next_heq => heq(NextX);
+
     // ★★★★★★★★★★★★★★★ methods
 
     /// <summary>
@@ -48,11 +60,65 @@ public abstract class ElastoplasticCharacteristic
         CurrentF = NextF;
     }
 
+    /// <summary>
+    /// 等価履歴減衰
+    /// </summary>
+    /// <param name="targetX"></param>
+    /// <returns></returns>
+    private double heq(double targetX)
+    {
+        if (Xy1 == 0)
+            return 0;
+
+        var mu = Math.Abs(NextX / Xy1);
+        if (mu < 1)
+            return 0;
+
+        // TODO:
+        switch (heq_EquationType)
+        {
+            case heq_EquationTypes.JapaneseArchitecturalLaw_W:
+            case heq_EquationTypes.JapaneseArchitecturalLaw_S:
+                return 0.20 * (1 - Math.Pow(mu, -0.5));
+            case heq_EquationTypes.JapaneseArchitecturalLaw_RC:
+                return 0.25 * (1 - Math.Pow(mu, -0.5));
+            case heq_EquationTypes.BasicModels_Simplified:
+                return 2 / Math.PI * (1 - Math.Pow(mu, -0.5));
+            case heq_EquationTypes.DegradingModels_Simplified:
+                return 1 / Math.PI * (1 - Math.Pow(mu, -0.5));
+            case heq_EquationTypes.BilinearModels_Detailed:
+                {
+                    var top = 2 * (1 - beta) * (mu - Math.Pow(mu, alpha) * (1 + beta * (mu - 1)));
+                    var bottom = Math.PI * mu * (1 + beta * (mu - 1)) * (1 - beta * Math.Pow(mu, alpha));
+                    return top / bottom;
+                }
+            case heq_EquationTypes.CloughModels_Detailed:
+                {
+                    return 1 / Math.PI * (1 - (1 + beta * (mu - 1)) / mu * Math.Pow(mu, alpha));
+                }
+            default:
+                throw new NotImplementedException("oh no");
+        }
+    }
 
     // ★★★★★★★★★★★★★★★ const
 
     private const double MIN_K = 1e-10;
 
+    // ★★★★★★★★★★★★★★★ enum
+
+    public enum heq_EquationTypes
+    {
+        JapaneseArchitecturalLaw_W,
+        JapaneseArchitecturalLaw_S,
+        JapaneseArchitecturalLaw_RC,
+
+        BasicModels_Simplified,
+        DegradingModels_Simplified,
+
+        BilinearModels_Detailed,
+        CloughModels_Detailed,
+    }
 
     // ★★★★★★★★★★★★★★★
 

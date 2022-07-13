@@ -6,13 +6,11 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
     // ★★★★★★★★★★★★★★★ props
 
-    public double K1r => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy)), -alpha); // DegradingStateにいない時は自動的に K1 となる。
+    public double K1r => K1 * Math.Pow(Math.Max(1, Math.Abs(DegradeStartX / Xy1)), -alpha); // DegradingStateにいない時は自動的に K1 となる。
     public double K2;
 
-    public double Fy;
     public double alpha;
 
-    public double Xy = 0d;
     private double MaxF = 0d;
     private double MaxX = 0d;
     private double MinF = 0d;
@@ -26,12 +24,14 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
 
     public DegradingCloughModel(double K1, double beta, double Fy, double alpha)
     {
+        this.alpha = alpha;
+        this.beta = beta;
         this.K1 = K1;
         this.K2 = K1 * beta;
-        this.Fy = Fy;
+        this.Fy1 = Fy;
         this.alpha = alpha;
 
-        Xy = Fy / K1;
+        Xy1 = Fy / K1;
         MaxF = Fy;
         MaxX = Fy / K1;
         MinF = -Fy;
@@ -52,7 +52,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
         // 設計イラストの通り
         var dX = NextX - CurrentX;
         var f1r = K1r * dX + CurrentF;
-        var f2 = K2 * (NextX - Xy) + ((NextX > CurrentX) ? Fy : -Fy);
+        var f2 = K2 * (NextX - Xy1) + ((NextX > CurrentX) ? Fy1 : -Fy1);
         double fc; // fcrなどと兼用
 
         // 向かってる先でX軸をまたがない／またぐ
@@ -155,6 +155,7 @@ public class DegradingCloughModel : ElastoplasticCharacteristic
         #endregion
 
         base.AdoptNextPoint();
+
     }
 
     // ★★★★★★★★★★★★★★★
