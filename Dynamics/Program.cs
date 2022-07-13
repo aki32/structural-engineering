@@ -75,6 +75,7 @@ namespace Dynamics
                         var waveAnalysisModelList = new List<ITimeHistoryAnalysisModel>
                             {
                                 new NewmarkBetaModel(0.25),
+                                new WilsonTheta(1.4,0.25),
                                 //new NigamJenningsModel(),
                             };
 
@@ -87,8 +88,8 @@ namespace Dynamics
                             {
                                 new ElasticModel(2),
                                 new BilinearModel(2, 0.1, 8),
-                                new CloughModel(2, 0.1, 8),
-                                new DegradingCloughModel(2, 0.1, 8, 0.4),
+                                //new CloughModel(2, 0.1, 8),
+                                //new DegradingCloughModel(2, 0.1, 8, 0.4),
                             };
 
                             foreach (var ep in epList)
